@@ -4,6 +4,28 @@ export interface GetAvaiableElectionsResponse {
   message: string;
 }
 
+export interface Party {
+  id: string;
+  code: number;
+  name: string;
+  slug: string;
+  votes: number;
+  members: {
+    candidate: {
+      name: string;
+      image: string;
+    };
+    viceCandidate: {
+      name: string;
+      image: string;
+    };
+  };
+}
+
+export interface GetElectionsPageResponse {
+  results: Party[];
+}
+
 interface AvaiableElections {
   electionId: string;
   electionName: string;
@@ -40,11 +62,11 @@ export interface CreateResultPage {
   databaseId: string;
   electionName: string;
   electionId: string;
-  winnerParty: Party;
-  looserParty: Party;
+  winnerParty: PartySummary;
+  looserParty: PartySummary;
 }
 
-interface Party {
+interface PartySummary {
   name: string;
   members: string[];
   votes: string;
