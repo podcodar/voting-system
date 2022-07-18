@@ -1,0 +1,25 @@
+name: Merge Request Quality Gate
+
+on: pull_request
+
+jobs:
+  lint-and-build:
+    runs-on: ubuntu-latest
+    name: Lint and build
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Setup node 16
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16.x
+
+      - name: Install dependencies
+        run: yarn
+
+      - name: Lint code
+        run: yarn lint
+
+      - name: Check build
+        run: yarn build
