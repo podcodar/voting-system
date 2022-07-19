@@ -6,7 +6,7 @@ import Display from '@packages/components/Display';
 import type { NextPage } from 'next';
 
 const VotingPage: NextPage = () => {
-  const [isVoting] = useState(false);
+  const [isVoting] = useState(true);
 
   // function handleVote() {
   //   setIsVoting(false);
