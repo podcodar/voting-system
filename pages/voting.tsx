@@ -1,12 +1,12 @@
 import { useState } from 'react';
-import { Box, Grid, Flex, Heading } from '@chakra-ui/react';
+import { Box, Grid, Heading, Center } from '@chakra-ui/react';
 
 import Display from '@packages/components/Display';
 
 import type { NextPage } from 'next';
 
 const VotingPage: NextPage = () => {
-  const [isVoting] = useState(true);
+  const [isVoting] = useState(false);
 
   // function handleVote() {
   //   setIsVoting(false);
@@ -25,9 +25,9 @@ const VotingPage: NextPage = () => {
 
 function VotingEndBox() {
   return (
-    <Flex w="100%" h="100%" justify="center" align="center">
+    <Center w="100%" h="100%">
       <Heading>FIM</Heading>
-    </Flex>
+    </Center>
   );
 }
 
