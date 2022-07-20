@@ -1,4 +1,4 @@
-import { Box, Flex, Image, Spacer } from '@chakra-ui/react';
+import { Box, Image, Spacer } from '@chakra-ui/react';
 
 interface CadidateCardProps {
   source: string;
