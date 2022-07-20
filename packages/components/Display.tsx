@@ -25,9 +25,9 @@ export default function Display() {
       <Flex
         bg="#FEFCBF"
         h="100%"
-        justifyContent="center"
-        alignItems="flex-end"
-        flexDirection="column"
+        justify="center"
+        align="flex-end"
+        flexDir="column"
       >
         <CandidatePhotos
           source={
