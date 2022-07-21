@@ -4,24 +4,6 @@ export interface GetAvaiableElectionsResponse {
   message: string;
 }
 
-export interface Party {
-  id: string;
-  code: number;
-  name: string;
-  slug: string;
-  votes: number;
-  members: {
-    candidate: {
-      name: string;
-      image: string;
-    };
-    viceCandidate: {
-      name: string;
-      image: string;
-    };
-  };
-}
-
 export interface GetElectionsPageResponse {
   results: Party[];
 }
@@ -40,9 +22,12 @@ export interface CreateElectionResultResponse {
   id?: string;
 }
 
+export interface Party extends PartyData, PartyMembers {
+  votes: number;
+}
 export interface PartyData {
   id: string;
-  code: string;
+  code: number;
   name: string;
   slug: string;
   members: PartyMembers;
