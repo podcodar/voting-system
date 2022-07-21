@@ -4,12 +4,10 @@ import {
   useContext,
   useMemo,
   useCallback,
-  useEffect,
 } from 'react';
 
 import { ChildrenProps } from '@packages/utils/react';
 import { Party } from '@packages/entities/notion';
-import { electionsApi } from '@packages/repository/api';
 
 interface IVotingCtx {
   parties: Party[];
@@ -26,19 +24,6 @@ function VotingCtxProvider({ children }: ChildrenProps) {
   const [partyList, setPartyList] = useState<Party[]>(
     defaultInitialState.parties,
   );
-
-  useEffect(() => {
-    async function getData() {
-      const test = await electionsApi.getElectionPage(
-        '71b6faee-915f-4442-adbb-6e18f2f86e1d',
-      );
-      if (test?.results) {
-        setPartyList(test.results);
-      }
-    }
-
-    getData();
-  }, []);
 
   const incrementVote = useCallback(
     () => (partyCode: number) => {

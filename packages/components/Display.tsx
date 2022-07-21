@@ -6,11 +6,11 @@ import { useVotingContext } from '@packages/features/voting-context';
 import PartyInfo from './PartyInfo';
 
 export default function Display() {
-  const { partys } = useVotingContext();
+  const { parties } = useVotingContext();
 
   useEffect(() => {
-    console.log(JSON.stringify(partys));
-  }, [partys]);
+    console.log(JSON.stringify(parties));
+  }, [parties]);
 
   return (
     <Grid templateColumns="1fr 1fr" h="80%" alignSelf="center">
