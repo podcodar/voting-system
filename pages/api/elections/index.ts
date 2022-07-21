@@ -3,6 +3,23 @@ import { getAvaiableElections } from '@packages/notion/client';
 
 import type { NextApiRequest, NextApiResponse } from 'next';
 
+/**
+ * @swagger
+ * /api/organization:
+ *   get:
+ *     tags: [elections]
+ *     responses:
+ *       200:
+ *         description: return one database object
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 type: object
+//  *                 $ref: '#/components/schemas/Organization'
+ */
+
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<GetAvaiableElectionsResponse>,
