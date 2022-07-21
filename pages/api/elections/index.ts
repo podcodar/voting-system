@@ -1,11 +1,11 @@
-import { GetAvaiableElectionsResponse } from '@packages/entities/notion';
+import { GetAvailableElectionsResponse } from '@packages/entities/notion';
 import { getAvaiableElections } from '@packages/notion/client';
 
 import type { NextApiRequest, NextApiResponse } from 'next';
 
 /**
  * @swagger
- * /api/organization:
+ * /api/:
  *   get:
  *     tags: [elections]
  *     responses:
@@ -17,11 +17,12 @@ import type { NextApiRequest, NextApiResponse } from 'next';
  *               type: array
  *               items:
  *                 type: object
+ *                 $ref: '#/components/schemas/AvailableElectionsResponse'
  */
 
 export default async function handler(
   req: NextApiRequest,
-  res: NextApiResponse<GetAvaiableElectionsResponse>,
+  res: NextApiResponse<GetAvailableElectionsResponse>,
 ) {
   const { databaseId } = req.query;
   if (!Array.isArray(databaseId)) {

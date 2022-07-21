@@ -1,4 +1,4 @@
-export interface GetAvaiableElectionsResponse {
+export interface GetAvailableElectionsResponse {
   next_cursor?: string | null;
   results?: AvaiableElections[];
   message: string;
