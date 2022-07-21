@@ -1,0 +1,33 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Next Swagger API Example",
+    "version": "1.0"
+  },
+  "paths": {
+    "/api/organization": {
+      "get": {
+        "tags": [
+          "elections"
+        ],
+        "responses": {
+          "200": {
+            "description": "return one database object",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {},
+  "tags": []
+}

@@ -17,7 +17,6 @@ import type { NextApiRequest, NextApiResponse } from 'next';
  *               type: array
  *               items:
  *                 type: object
-//  *                 $ref: '#/components/schemas/Organization'
  */
 
 export default async function handler(
