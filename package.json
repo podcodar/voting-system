@@ -19,8 +19,10 @@
     "dexie": "^3.2.2",
     "framer-motion": "^6.3.10",
     "next": "12.1.6",
+    "next-swagger-doc": "^0.3.4",
     "react": "18.1.0",
-    "react-dom": "18.1.0"
+    "react-dom": "18.1.0",
+    "swagger-ui-react": "^4.13.0"
   },
   "devDependencies": {
     "@types/node": "17.0.39",
