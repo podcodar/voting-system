@@ -12,11 +12,11 @@ import { Party } from '@packages/entities/notion';
 import { electionsApi } from '@packages/repository/api';
 
 interface IVotingCtx {
-  partys: Party[];
+  parties: Party[];
   incrementVote: () => void;
 }
 const defaultInitialState = {
-  partys: [
+  parties: [
     {
       id: '2ab435ef-4287-4477-937a-bf7518fa061b',
       code: 13,
@@ -44,7 +44,7 @@ const VotingCtx = createContext<IVotingCtx>(defaultInitialState);
 
 function VotingCtxProvider({ children }: ChildrenProps) {
   const [partyList, setPartyList] = useState<Party[]>(
-    defaultInitialState.partys,
+    defaultInitialState.parties,
   );
 
   useEffect(() => {
@@ -78,7 +78,7 @@ function VotingCtxProvider({ children }: ChildrenProps) {
 
   const votingData = useMemo(() => {
     return {
-      partys: partyList,
+      parties: partyList,
       incrementVote: incrementVote,
     };
   }, [partyList, incrementVote]);
