@@ -3,9 +3,7 @@ import { createSwaggerSpec } from 'next-swagger-doc';
 import dynamic from 'next/dynamic';
 import 'swagger-ui-react/swagger-ui.css';
 
-const SwaggerUI = dynamic<{
-  spec: Record<string, any>;
-}>(import('swagger-ui-react'), { ssr: false });
+const SwaggerUI = dynamic<any>(import('swagger-ui-react'), { ssr: false }); //TODO(vzsoares)fix type error
 
 function ApiDoc({ spec }: InferGetStaticPropsType<typeof getStaticProps>) {
   return <SwaggerUI spec={spec} />;
