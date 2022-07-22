@@ -10,7 +10,7 @@ export default function CandidatePhotos({
   vicePhoto,
 }: CadidateCardProps) {
   return (
-    <Box>
+    <Box padding="1rem">
       <Avatar boxSize="140px" src={candidatePhoto} />
       <Spacer height="2rem" />
       <Box display="flex" justifyContent="center">
