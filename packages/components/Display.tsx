@@ -22,7 +22,13 @@ export default function Display() {
         <DigitBox />
         <PartyInfo />
       </Flex>
-      <Flex h="100%" justify="center" align="flex-end" flexDir="column">
+      <Flex
+        bg="#D9D9D9"
+        h="100%"
+        justify="center"
+        align="flex-end"
+        flexDir="column"
+      >
         <CandidatePhotos />
       </Flex>
     </Grid>
