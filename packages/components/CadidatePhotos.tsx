@@ -1,8 +1,8 @@
-import { Avatar, Box, Image, Spacer } from '@chakra-ui/react';
+import { Avatar, Box, Flex, Image, Spacer } from '@chakra-ui/react';
 
 interface CadidateCardProps {
-  candidatePhoto: string;
-  vicePhoto: string;
+  candidatePhoto?: string;
+  vicePhoto?: string;
 }
 
 export default function CandidatePhotos({
@@ -10,15 +10,12 @@ export default function CandidatePhotos({
   vicePhoto,
 }: CadidateCardProps) {
   return (
-    <Box padding="1rem">
-      <Avatar borderRadius="full" boxSize="140px" src={candidatePhoto} />
-      <Spacer height="20px" />
-      <Avatar
-        borderRadius="full"
-        boxSize="120px"
-        src={vicePhoto}
-        margin="auto"
-      />
+    <Box>
+      <Avatar boxSize="140px" src={candidatePhoto} />
+      <Spacer height="2rem" />
+      <Box display="flex" justifyContent="center">
+        <Avatar boxSize="120px" src={vicePhoto} />
+      </Box>
     </Box>
   );
 }
