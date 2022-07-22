@@ -3,7 +3,6 @@ import { Flex, Heading, Input, Spacer } from '@chakra-ui/react';
 export default function DigitBox() {
   return (
     <Flex
-      display="flex"
       w="27vw"
       h="35vh"
       justifyContent="center"
