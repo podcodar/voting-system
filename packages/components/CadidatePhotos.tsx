@@ -1,15 +1,24 @@
-import { Box, Image, Spacer } from '@chakra-ui/react';
+import { Avatar, Box, Image, Spacer } from '@chakra-ui/react';
 
 interface CadidateCardProps {
-  source: string;
+  candidatePhoto: string;
+  vicePhoto: string;
 }
 
-export default function CandidatePhotos({ source }: CadidateCardProps) {
+export default function CandidatePhotos({
+  candidatePhoto,
+  vicePhoto,
+}: CadidateCardProps) {
   return (
     <Box padding="1rem">
-      <Image borderRadius="full" boxSize="140px" src={source} />
+      <Avatar borderRadius="full" boxSize="140px" src={candidatePhoto} />
       <Spacer height="20px" />
-      <Image borderRadius="full" boxSize="120px" src={source} margin="auto" />
+      <Avatar
+        borderRadius="full"
+        boxSize="120px"
+        src={vicePhoto}
+        margin="auto"
+      />
     </Box>
   );
 }
