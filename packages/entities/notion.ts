@@ -4,6 +4,10 @@ export interface GetAvaiableElectionsResponse {
   message: string;
 }
 
+export interface GetElectionsPageResponse {
+  results: Party[];
+}
+
 interface AvaiableElections {
   electionId: string;
   electionName: string;
@@ -18,9 +22,12 @@ export interface CreateElectionResultResponse {
   id?: string;
 }
 
+export interface Party extends PartyData, PartyMembers {
+  votes: number;
+}
 export interface PartyData {
   id: string;
-  code: string;
+  code: number;
   name: string;
   slug: string;
   members: PartyMembers;
@@ -40,11 +47,11 @@ export interface CreateResultPage {
   databaseId: string;
   electionName: string;
   electionId: string;
-  winnerParty: Party;
-  looserParty: Party;
+  winnerParty: PartySummary;
+  looserParty: PartySummary;
 }
 
-interface Party {
+interface PartySummary {
   name: string;
   members: string[];
   votes: string;
