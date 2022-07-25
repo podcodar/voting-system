@@ -9,6 +9,8 @@ import CandidatePhotos from './CadidatePhotos';
 
 // TODO(Mamao): Move to centralized theme
 
+const votingScreenColor = '#D9D9D9';
+
 export default function Display() {
   const { parties } = useVotingContext();
 
@@ -17,18 +19,17 @@ export default function Display() {
   }, [parties]);
 
   return (
-    <Grid templateColumns="1fr 1fr" h="80%" alignSelf="center">
+    <Grid
+      bg={votingScreenColor}
+      templateColumns="1fr 1fr"
+      h="80%"
+      alignSelf="center"
+    >
       <Flex h="100%" justifyContent="end" flexDir="column">
         <DigitBox />
         <PartyInfo />
       </Flex>
-      <Flex
-        bg="#D9D9D9"
-        h="100%"
-        justify="center"
-        align="flex-end"
-        flexDir="column"
-      >
+      <Flex h="100%" justify="center" align="flex-end" flexDir="column">
         <CandidatePhotos />
       </Flex>
     </Grid>
