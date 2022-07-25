@@ -1,19 +1,24 @@
-import { Flex, Heading, Input, Spacer } from '@chakra-ui/react';
+import { Flex, Heading, Input } from '@chakra-ui/react';
 
 export default function DigitBox() {
   return (
-    <Flex
-      w="27vw"
-      h="35vh"
-      justifyContent="center"
-      alignItems="center"
-      px="20px"
-    >
+    <Flex w="35vw" h="35vh" alignItems="center" px="20px" gap="7">
       <Heading>Número</Heading>
-      <Flex padding="3rem">
-        <Input width="50px" height="70px" border="1px solid black"></Input>
-        <Spacer width="2rem" />
-        <Input width="50px" height="70px" border="1px solid black"></Input>
+      <Flex gap="9">
+        <Input
+          width="50px"
+          height="70px"
+          border="1px solid black"
+          value=""
+          readOnly
+        />
+        <Input
+          width="50px"
+          height="70px"
+          border="1px solid black"
+          value=""
+          readOnly
+        />
       </Flex>
     </Flex>
   );
