@@ -13,7 +13,7 @@ export default function CandidatePhotos({
     <Box padding="1rem">
       <Avatar boxSize="140px" src={candidatePhoto} />
       <Spacer height="2rem" />
-      <Flex display="flex" justifyContent="center">
+      <Flex justifyContent="center">
         <Avatar boxSize="120px" src={vicePhoto} />
       </Flex>
     </Box>
