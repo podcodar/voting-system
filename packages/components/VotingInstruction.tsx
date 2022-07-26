@@ -6,7 +6,7 @@ const VotingInstructions = () => {
       <Text
         fontSize="16px"
         fontFamily="inter"
-        width="377px"
+        width="45ch"
         p="6rem 1rem 1rem 1rem"
         textAlign="center"
         fontWeight="700"
