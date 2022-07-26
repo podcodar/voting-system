@@ -16,13 +16,15 @@ import { useConfigStates } from './config-context';
 
 interface IVotingCtx {
   parties: Party[];
-  incrementVote: () => void;
   availableElections: GetAvaiableElectionsResponse;
+  incrementVote: () => void;
+  loadParties: (pageId: string) => void;
 }
 const defaultInitialState = {
   parties: [],
-  incrementVote: () => {},
   availableElections: { message: '' },
+  incrementVote: () => {},
+  loadParties: () => {},
 };
 
 const VotingCtx = createContext<IVotingCtx>(defaultInitialState);
@@ -36,6 +38,14 @@ function VotingCtxProvider({ children }: ChildrenProps) {
   const [partyList, setPartyList] = useState<Party[]>(
     defaultInitialState.parties,
   );
+
+  const loadParties = useCallback(async (pageId: string) => {
+    // TODO validate id
+    const res = await electionsApi.getElectionPage(pageId);
+    if (res) {
+      setPartyList(res.results);
+    }
+  }, []);
 
   const incrementVote = useCallback(
     () => (partyCode: number) => {
@@ -64,10 +74,11 @@ function VotingCtxProvider({ children }: ChildrenProps) {
   const votingData = useMemo(() => {
     return {
       parties: partyList,
-      incrementVote: incrementVote,
       availableElections: availableElections,
+      incrementVote: incrementVote,
+      loadParties: loadParties,
     };
-  }, [partyList, incrementVote, availableElections]);
+  }, [partyList, incrementVote, availableElections, loadParties]);
 
   return <VotingCtx.Provider value={votingData}>{children}</VotingCtx.Provider>;
 }
