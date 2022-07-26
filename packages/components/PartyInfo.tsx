@@ -11,7 +11,6 @@ export default function PartyInfo({ candidate, vice, party }: IPartyInfo) {
     <Box
       display="flex"
       flexDirection="column"
-      border="2px solid black"
       w="35vw"
       h="35vh"
       justifyContent="center"
