@@ -8,7 +8,10 @@ import {
 } from 'react';
 
 import { ChildrenProps } from '@packages/utils/react';
-import { GetAvaiableElectionsResponse, Party } from '@packages/entities/notion';
+import {
+  GetAvailableElectionsResponse,
+  Party,
+} from '@packages/entities/notion';
 
 import { electionsApi } from '../repository/api';
 
@@ -16,7 +19,7 @@ import { useConfigStates } from './config-context';
 
 interface IVotingCtx {
   parties: Party[];
-  availableElections: GetAvaiableElectionsResponse;
+  availableElections: GetAvailableElectionsResponse;
   incrementVote: () => void;
   loadParties: (pageId: string) => void;
 }
@@ -32,7 +35,7 @@ const VotingCtx = createContext<IVotingCtx>(defaultInitialState);
 function VotingCtxProvider({ children }: ChildrenProps) {
   const { electionDatabaseId } = useConfigStates();
   const [availableElections, setAvailableElections] =
-    useState<GetAvaiableElectionsResponse>(
+    useState<GetAvailableElectionsResponse>(
       defaultInitialState.availableElections,
     );
   const [partyList, setPartyList] = useState<Party[]>(

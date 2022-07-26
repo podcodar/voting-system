@@ -1,5 +1,5 @@
 import {
-  GetAvaiableElectionsResponse,
+  GetAvailableElectionsResponse,
   GetElectionsPageResponse,
 } from '@packages/entities/notion';
 
@@ -11,7 +11,7 @@ const ELECTION_PAGE_URL = (pageId: string) =>
 
 export const electionsApi = {
   getAvaiableElections: async (databaseId: string) =>
-    fetchData<GetAvaiableElectionsResponse>(ELECTIONS_URL(databaseId), {
+    fetchData<GetAvailableElectionsResponse>(ELECTIONS_URL(databaseId), {
       method: 'GET',
     }),
   getElectionPage: async (pageId: string) =>

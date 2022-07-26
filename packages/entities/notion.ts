@@ -1,6 +1,6 @@
-export interface GetAvaiableElectionsResponse {
+export interface GetAvailableElectionsResponse {
   next_cursor?: string | null;
-  results?: AvaiableElections[];
+  results?: AvailableElections[];
   message: string;
 }
 
@@ -8,7 +8,7 @@ export interface GetElectionsPageResponse {
   results: Party[];
 }
 
-interface AvaiableElections {
+interface AvailableElections {
   electionId: string;
   electionName: string;
 }
