@@ -67,11 +67,13 @@ function VotingCtxProvider({ children }: ChildrenProps) {
   );
 
   useEffect(() => {
+    if (electionDatabaseId.length > 0) {
+      getData();
+    }
     async function getData() {
       const res = await electionsApi.getAvaiableElections(electionDatabaseId);
       if (res) setAvailableElections(res);
     }
-    getData();
   }, [electionDatabaseId]);
 
   const votingData = useMemo(() => {
