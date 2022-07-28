@@ -8,6 +8,7 @@ import { getConfiguration } from '@packages/repository/indexedDb';
 const defaultInitialState = {
   electionDatabaseId: '',
   resultsDatabaseId: '',
+  notionApiKey: '',
 };
 
 interface ConfigActions {
@@ -18,6 +19,7 @@ interface ConfigActions {
 export interface ConfigStates {
   readonly electionDatabaseId: string;
   readonly resultsDatabaseId: string;
+  readonly notionApiKey: string;
 }
 
 const [useConfigActions, ConfigActionsProvider] =

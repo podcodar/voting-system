@@ -27,6 +27,7 @@ export async function getConfiguration(): Promise<ConfigStates> {
   const getResult = await db.configuration.bulkGet([
     'electionDatabaseId',
     'resultsDatabaseId',
+    'notionApiKey',
   ]);
 
   const result = configContextToPersistence(getResult);
