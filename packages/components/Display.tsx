@@ -1,9 +1,9 @@
 import { useEffect } from 'react';
 import { Flex, Grid } from '@chakra-ui/react';
-import DigitBox from './DigitBox';
 
 import { useVotingContext } from '@packages/features/voting-context';
 
+import DigitBox from './DigitBox';
 import PartyInfo from './PartyInfo';
 
 export default function Display() {

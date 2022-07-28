@@ -1,8 +1,9 @@
 import { useState } from 'react';
-import { Box, Grid, Heading, Center } from '@chakra-ui/react';
+import { Grid, Heading, Center, Box } from '@chakra-ui/react';
 
 import Display from '@packages/components/Display';
 import VotingInstructions from '@packages/components/VotingInstruction';
+import InputPanel from '@packages/components/InputPanel/InputPanel';
 
 import type { NextPage } from 'next';
 
@@ -22,6 +23,7 @@ const VotingPage: NextPage = () => {
       <Box bg="#D9D9D9" h="100%" boxShadow="dark-lg">
         <VotingInstructions />
       </Box>
+      <InputPanel />
     </Grid>
   );
 };
