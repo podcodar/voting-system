@@ -1,4 +1,5 @@
 import Dexie, { Table } from 'dexie';
+import Cookies from 'universal-cookie';
 
 import { ConfigStates } from '@packages/features/config-context';
 import { IConfig, IVotes } from '@packages/entities/indexedDb';
@@ -21,6 +22,7 @@ export default class VSDatabase extends Dexie {
   }
 }
 
+const cookies = new Cookies();
 const db = new VSDatabase();
 
 export async function getConfiguration(): Promise<ConfigStates> {
@@ -38,6 +40,6 @@ export async function putConfiguration(
   configuration: ConfigStates,
 ): Promise<void> {
   const updateData = configPersistenceToContext(configuration);
-
+  cookies.set('notionApiKey', configuration.notionApiKey, { path: '/' });
   await db.configuration.bulkPut(updateData);
 }
