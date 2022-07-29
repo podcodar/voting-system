@@ -26,6 +26,7 @@ import {
   putConfiguration,
 } from '@packages/repository/indexedDb';
 import { updateConfigurationSuccess } from '@packages/utils/toast-configs';
+import { saveApiKey } from '@packages/repository/cookies';
 
 export default function ConfigModal({ isOpen, onClose }: IConfigModal) {
   const toast = useToast();
@@ -43,6 +44,7 @@ export default function ConfigModal({ isOpen, onClose }: IConfigModal) {
 
   const onSubmmit = async () => {
     await putConfiguration(formState);
+    saveApiKey(formState.notionApiKey);
     toast(updateConfigurationSuccess);
     onClose();
   };
