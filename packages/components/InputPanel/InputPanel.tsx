@@ -6,11 +6,7 @@ import BaseButton from '../BaseButton';
 
 import { NumericButton } from './NumericButton';
 
-const generateNumberList = (max = 10) => {
-  return Array(max)
-    .fill(null)
-    .map((_, i) => (i + 1) % max);
-};
+const digitList = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0'];
 
 export default function InputPanel() {
   return (
@@ -20,19 +16,22 @@ export default function InputPanel() {
       alignItems="center"
       justifyContent="center"
       px="2"
-      backgroundColor="blackAlpha.700"
+      backgroundColor="#D9D9D9"
     >
       <Grid
         templateColumns="repeat(3, 1fr)"
-        h="30%"
-        w="50%"
-        gap="1"
+        h="45%"
+        w="80%"
+        gap="5"
         justifyItems="center"
         alignContent="center"
+        fontFamily="Inter"
+        fontWeight="normal"
+        fontSize="1.1rem"
       >
-        {generateNumberList().map((num) => (
+        {digitList.map((num) => (
           <NumericButton key={num} onclick={pass}>
-            {String(num)}
+            {num}
           </NumericButton>
         ))}
       </Grid>

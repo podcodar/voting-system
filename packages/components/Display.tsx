@@ -6,6 +6,8 @@ import { useVotingContext } from '@packages/features/voting-context';
 import DigitBox from './DigitBox';
 import PartyInfo from './PartyInfo';
 
+// TODO(Mamao): Move to centralized theme
+
 export default function Display() {
   const { parties } = useVotingContext();
 
