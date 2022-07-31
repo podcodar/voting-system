@@ -22,7 +22,10 @@ const VotingPage: NextPage = () => {
   // }
 
   useEffect(() => {
-    loadParties(router.query.electionId as string);
+    const electionId = router.query.electionId;
+    if (electionId) {
+      loadParties(electionId as string);
+    }
   }, [loadParties, router]);
 
   return (
