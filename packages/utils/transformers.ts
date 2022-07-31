@@ -16,11 +16,10 @@ export function configPersistenceToContext(
 export function configContextToPersistence(
   config: (IConfig | undefined)[],
 ): ConfigStates {
-  const [electionDatabaseId, resultsDatabaseId, notionApiKey] = config;
+  const [electionDatabaseId, resultsDatabaseId] = config;
 
   return {
     electionDatabaseId: electionDatabaseId?.value || '',
     resultsDatabaseId: resultsDatabaseId?.value || '',
-    notionApiKey: notionApiKey?.value || '',
   };
 }

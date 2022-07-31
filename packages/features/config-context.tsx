@@ -4,6 +4,7 @@ import { ChildrenProps, ReactEvent } from '@packages/utils/react';
 import createCtx from '@packages/utils/createCtx';
 import { FormState } from '@packages/entities/config-modal';
 import { getConfiguration } from '@packages/repository/indexedDb';
+import { getCookie } from '@packages/repository/cookies';
 
 const defaultInitialState = {
   electionDatabaseId: '',
@@ -19,7 +20,7 @@ interface ConfigActions {
 export interface ConfigStates {
   readonly electionDatabaseId: string;
   readonly resultsDatabaseId: string;
-  readonly notionApiKey: string;
+  readonly notionApiKey?: string;
 }
 
 const [useConfigActions, ConfigActionsProvider] =
@@ -32,7 +33,8 @@ function ConfigProvider({ children }: ChildrenProps) {
     async function loadInitialState() {
       const persistedInitialState = await getConfiguration();
       const initialState = persistedInitialState || defaultInitialState;
-      setFormState(initialState);
+      const notionApiKey = getCookie('notionApiKey') ?? '';
+      setFormState({ ...initialState, notionApiKey: notionApiKey });
     }
 
     loadInitialState();

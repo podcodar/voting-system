@@ -44,7 +44,7 @@ export default function ConfigModal({ isOpen, onClose }: IConfigModal) {
 
   const onSubmmit = async () => {
     await putConfiguration(formState);
-    saveApiKey(formState.notionApiKey);
+    saveApiKey(formState.notionApiKey ?? '');
     toast(updateConfigurationSuccess);
     onClose();
   };

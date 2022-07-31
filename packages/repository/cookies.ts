@@ -10,6 +10,7 @@ const cookies = new Cookies();
 function storeCookie({ key, value }: cookie) {
   cookies.set(key, value, { path: '/' });
 }
+
 function getCookie(key: string) {
   const allCookies = cookies.getAll();
   return allCookies[key];
