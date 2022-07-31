@@ -65,7 +65,7 @@ function VotingCtxProvider({ children }: ChildrenProps) {
   );
 
   useEffect(() => {
-    if (electionDatabaseId.length > 0) {
+    if (electionDatabaseId.length) {
       getData();
     }
     async function getData() {
