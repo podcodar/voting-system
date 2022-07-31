@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Grid, Heading, Center, Box } from '@chakra-ui/react';
+import { Grid, Heading, Center, Flex } from '@chakra-ui/react';
 
 import Display from '@packages/components/Display';
 import VotingInstructions from '@packages/components/VotingInstruction';
@@ -20,10 +20,16 @@ const VotingPage: NextPage = () => {
   return (
     <Grid templateColumns="2fr 1fr" gap="3" h="100vh" p="10">
       {isVoting ? <Display /> : <VotingEndBox />}
-      <Box bg="#D9D9D9" h="100%" boxShadow="dark-lg">
+      <Flex
+        h="100%"
+        direction="column"
+        alignItems="center"
+        justifyContent="center"
+        backgroundColor="#D9D9D9"
+      >
         <VotingInstructions />
-      </Box>
-      <InputPanel />
+        <InputPanel />
+      </Flex>
     </Grid>
   );
 };

@@ -20,8 +20,8 @@ export default function InputPanel() {
     >
       <Grid
         templateColumns="repeat(3, 1fr)"
-        h="45%"
-        w="80%"
+        h="50%"
+        w="100%"
         gap="5"
         justifyItems="center"
         alignContent="center"
@@ -36,7 +36,7 @@ export default function InputPanel() {
         ))}
       </Grid>
       <Flex
-        w="80%"
+        w="100%"
         alignItems="flex-end"
         justifyContent="space-between"
         gap="6"
