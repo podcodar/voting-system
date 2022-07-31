@@ -7,15 +7,13 @@ import {
   useEffect,
 } from 'react';
 
+import { useConfigStates } from '@packages/features/config-context';
 import { ChildrenProps } from '@packages/utils/react';
 import {
   GetAvailableElectionsResponse,
   Party,
 } from '@packages/entities/notion';
-
-import { electionsApi } from '../repository/api';
-
-import { useConfigStates } from './config-context';
+import { electionsApi } from '@packages/repository/api';
 
 interface IVotingCtx {
   parties: Party[];
