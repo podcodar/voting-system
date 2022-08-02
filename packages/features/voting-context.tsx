@@ -41,7 +41,6 @@ function VotingCtxProvider({ children }: ChildrenProps) {
   );
 
   const loadParties = useCallback(async (pageId: string) => {
-    // TODO validate id
     const res = await electionsApi.getElectionPage(pageId);
     if (res) {
       setPartyList(res.results);

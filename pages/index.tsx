@@ -13,7 +13,6 @@ const Home: NextPage = () => {
   const { availableElections } = useVotingContext();
   const [selectedElection, setSelectedElection] = useState('');
   function startElection() {
-    // TODO validade selected election
     router.push(`/voting?electionId=${selectedElection}`);
   }
 
