@@ -34,6 +34,7 @@ function ConfigProvider({ children }: ChildrenProps) {
       const persistedInitialState = await getConfiguration();
       const initialState = persistedInitialState || defaultInitialState;
       const notionApiKey = getCookie('notionApiKey') ?? '';
+
       setFormState({ ...initialState, notionApiKey: notionApiKey });
     }
 
