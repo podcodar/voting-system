@@ -27,6 +27,7 @@ import {
 } from '@packages/repository/indexedDb';
 import { updateConfigurationSuccess } from '@packages/utils/toast-configs';
 import { saveApiKey } from '@packages/repository/cookies';
+import { useVotingContext } from '@packages/features/voting-context';
 
 export default function ConfigModal({ isOpen, onClose }: IConfigModal) {
   const toast = useToast();
@@ -34,6 +35,7 @@ export default function ConfigModal({ isOpen, onClose }: IConfigModal) {
   const formState = useConfigStates();
   const { updateConfiguration } = useConfigActions();
   const boxBgColor = useColorModeValue('gray.100', 'gray.900');
+  const { loadAvailableElections } = useVotingContext();
 
   const updateContext = async () => {
     const persistedConfig = await getConfiguration();
@@ -45,6 +47,7 @@ export default function ConfigModal({ isOpen, onClose }: IConfigModal) {
   const onSubmmit = async () => {
     await putConfiguration(formState);
     saveApiKey(formState.notionApiKey ?? '');
+    loadAvailableElections(formState.electionDatabaseId);
     toast(updateConfigurationSuccess);
     onClose();
   };

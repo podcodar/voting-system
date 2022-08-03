@@ -4,10 +4,8 @@ import {
   useContext,
   useMemo,
   useCallback,
-  useEffect,
 } from 'react';
 
-import { useConfigStates } from '@packages/features/config-context';
 import { ChildrenProps } from '@packages/utils/react';
 import {
   GetAvailableElectionsResponse,
@@ -20,18 +18,19 @@ interface IVotingCtx {
   availableElections: GetAvailableElectionsResponse;
   incrementVote: () => void;
   loadParties: (pageId: string) => void;
+  loadAvailableElections: (databaseID: string) => void;
 }
 const defaultInitialState = {
   parties: [],
   availableElections: { message: '' },
   incrementVote: () => {},
   loadParties: () => {},
+  loadAvailableElections: () => {},
 };
 
 const VotingCtx = createContext<IVotingCtx>(defaultInitialState);
 
 function VotingCtxProvider({ children }: ChildrenProps) {
-  const { electionDatabaseId } = useConfigStates();
   const [availableElections, setAvailableElections] =
     useState<GetAvailableElectionsResponse>(
       defaultInitialState.availableElections,
@@ -44,6 +43,16 @@ function VotingCtxProvider({ children }: ChildrenProps) {
     const res = await electionsApi.getElectionPage(pageId);
     if (res) {
       setPartyList(res.results);
+    }
+  }, []);
+
+  const loadAvailableElections = useCallback((databaseID: string) => {
+    if (databaseID.length) {
+      getData();
+    }
+    async function getData() {
+      const res = await electionsApi.getAvaiableElections(databaseID);
+      if (res) setAvailableElections(res);
     }
   }, []);
 
@@ -63,24 +72,21 @@ function VotingCtxProvider({ children }: ChildrenProps) {
     [partyList],
   );
 
-  useEffect(() => {
-    if (electionDatabaseId.length) {
-      getData();
-    }
-    async function getData() {
-      const res = await electionsApi.getAvaiableElections(electionDatabaseId);
-      if (res) setAvailableElections(res);
-    }
-  }, [electionDatabaseId]);
-
   const votingData = useMemo(() => {
     return {
       parties: partyList,
       availableElections: availableElections,
       incrementVote: incrementVote,
       loadParties: loadParties,
+      loadAvailableElections: loadAvailableElections,
     };
-  }, [partyList, incrementVote, availableElections, loadParties]);
+  }, [
+    partyList,
+    incrementVote,
+    availableElections,
+    loadParties,
+    loadAvailableElections,
+  ]);
 
   return <VotingCtx.Provider value={votingData}>{children}</VotingCtx.Provider>;
 }
