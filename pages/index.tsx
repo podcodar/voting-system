@@ -1,20 +1,26 @@
-import { FormEvent, useState } from 'react';
+import { FormEvent, useEffect, useState } from 'react';
 import { Heading, Box, Flex, Select, Button } from '@chakra-ui/react';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 
 import { useVotingContext } from '@packages/features/voting-context';
 import NavBar from '@packages/components/NavBar';
+import { useConfigStates } from '@packages/features/config-context';
 
 import type { NextPage } from 'next';
 
 const Home: NextPage = () => {
   const router = useRouter();
-  const { availableElections } = useVotingContext();
+  const { electionDatabaseId } = useConfigStates();
+  const { availableElections, loadAvailableElections } = useVotingContext();
   const [selectedElection, setSelectedElection] = useState('');
   function startElection() {
     router.push(`/voting?electionId=${selectedElection}`);
   }
+
+  useEffect(() => {
+    loadAvailableElections(electionDatabaseId);
+  }, []);
 
   return (
     <>
