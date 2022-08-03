@@ -1,10 +1,8 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useState } from 'react';
 
 import { ChildrenProps, ReactEvent } from '@packages/utils/react';
 import createCtx from '@packages/utils/createCtx';
 import { FormState } from '@packages/entities/config-modal';
-import { getConfiguration } from '@packages/repository/indexedDb';
-import { getCookie } from '@packages/repository/cookies';
 
 const defaultInitialState = {
   electionDatabaseId: '',
@@ -15,6 +13,7 @@ const defaultInitialState = {
 interface ConfigActions {
   readonly onConfigChange: (event: ReactEvent) => void;
   readonly updateConfiguration: (payload: ConfigStates) => void;
+  readonly setFormState: (state: FormState) => void;
 }
 
 export interface ConfigStates {
@@ -29,17 +28,6 @@ const [useConfigStates, ConfigStatesProvider] =
   createCtx<ConfigStates>('ConfigStatesCtx');
 
 function ConfigProvider({ children }: ChildrenProps) {
-  useEffect(() => {
-    async function loadInitialState() {
-      const persistedInitialState = await getConfiguration();
-      const initialState = persistedInitialState || defaultInitialState;
-      const notionApiKey = getCookie('notionApiKey') ?? '';
-
-      setFormState({ ...initialState, notionApiKey: notionApiKey });
-    }
-
-    loadInitialState();
-  }, []);
 
   const [formState, setFormState] = useState<FormState>(defaultInitialState);
 
@@ -63,6 +51,7 @@ function ConfigProvider({ children }: ChildrenProps) {
   const actions: ConfigActions = {
     onConfigChange,
     updateConfiguration,
+    setFormState,
   };
 
   return (

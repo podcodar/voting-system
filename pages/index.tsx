@@ -5,22 +5,30 @@ import { useRouter } from 'next/router';
 
 import { useVotingContext } from '@packages/features/voting-context';
 import NavBar from '@packages/components/NavBar';
-import { useConfigStates } from '@packages/features/config-context';
+import { getConfiguration } from '@packages/repository/indexedDb';
+import { useConfigActions } from '@packages/features/config-context';
 
 import type { NextPage } from 'next';
 
 const Home: NextPage = () => {
   const router = useRouter();
-  const { electionDatabaseId } = useConfigStates();
   const { availableElections, loadAvailableElections } = useVotingContext();
+  const { setFormState } = useConfigActions();
   const [selectedElection, setSelectedElection] = useState('');
   function startElection() {
     router.push(`/voting?electionId=${selectedElection}`);
   }
 
   useEffect(() => {
-    loadAvailableElections(electionDatabaseId);
-  }, []);
+    async function loadInitialState() {
+      const persistedInitialState = await getConfiguration();
+      const initialState = persistedInitialState;
+      setFormState(initialState);
+      loadAvailableElections(initialState.electionDatabaseId);
+    }
+
+    loadInitialState();
+  }, [loadAvailableElections, setFormState]);
 
   return (
     <>
