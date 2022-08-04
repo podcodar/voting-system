@@ -7,8 +7,7 @@ import DigitBox from './DigitBox';
 import PartyInfo from './PartyInfo';
 import CandidatePhotos from './CadidatePhotos';
 
-// TODO(Mamao): Move to centralized theme
-
+//TODO: Move to centralized theme
 const votingScreenColor = '#D9D9D9';
 
 export default function Display() {

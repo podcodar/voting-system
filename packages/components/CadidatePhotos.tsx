@@ -11,10 +11,10 @@ export default function CandidatePhotos({
 }: CadidateCardProps) {
   return (
     <Flex padding="1rem" flexDirection="column">
-      <Avatar boxSize="140px" src={candidatePhoto} />
+      <Avatar boxSize="10rem" src={candidatePhoto} />
       <Spacer height="2rem" />
       <Flex justifyContent="center">
-        <Avatar boxSize="120px" src={vicePhoto} marginTop="1rem" />
+        <Avatar boxSize="8rem" src={vicePhoto} marginTop="1rem" />
       </Flex>
     </Flex>
   );
