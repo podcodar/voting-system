@@ -16,7 +16,7 @@ const Home: NextPage = () => {
   const { setFormState } = useConfigActions();
   const [selectedElection, setSelectedElection] = useState('');
   function startElection() {
-    router.push(`/voting?electionId=${selectedElection}`);
+    if (selectedElection) router.push(`/voting?electionId=${selectedElection}`);
   }
 
   useEffect(() => {
