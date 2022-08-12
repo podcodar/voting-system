@@ -37,6 +37,5 @@ export async function putConfiguration(
   configuration: ConfigStates,
 ): Promise<void> {
   const updateData = configPersistenceToContext(configuration);
-
   await db.configuration.bulkPut(updateData);
 }

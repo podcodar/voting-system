@@ -8,7 +8,8 @@ import { IConfigForm } from '@packages/entities/config-modal';
 
 export default function ConfigForm({ initialRef }: IConfigForm) {
   const { onConfigChange } = useConfigActions();
-  const { electionDatabaseId, resultsDatabaseId } = useConfigStates();
+  const { electionDatabaseId, resultsDatabaseId, notionApiKey } =
+    useConfigStates();
 
   return (
     <>
@@ -30,6 +31,15 @@ export default function ConfigForm({ initialRef }: IConfigForm) {
         name="resultsDatabaseId"
         placeholder="Digite o Id do database de resultados"
         value={resultsDatabaseId}
+        onChange={onConfigChange}
+      />
+      <FormLabel fontWeight="bold" mt="4">
+        Chave Notion
+      </FormLabel>
+      <Input
+        name="notionApiKey"
+        placeholder="Digite o Id da chave Notion"
+        value={notionApiKey}
         onChange={onConfigChange}
       />
     </>

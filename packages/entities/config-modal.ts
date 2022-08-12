@@ -12,4 +12,5 @@ export interface IConfigForm {
 export interface FormState {
   electionDatabaseId: string;
   resultsDatabaseId: string;
+  notionApiKey?: string;
 }
