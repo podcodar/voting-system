@@ -21,14 +21,20 @@ const VotingPage: NextPage = () => {
   }, [loadParties, router]);
 
   return (
-    <Grid templateColumns="2fr 1fr" gap="3" h="100vh" p="10">
+    <Grid
+      templateColumns="2fr 1fr"
+      gap="3"
+      h="100vh"
+      p="10"
+      alignItems="center"
+    >
       {isVoting ? <Display /> : <VotingEndBox />}
       <Flex
-        h="100%"
+        h="82%"
         direction="column"
-        alignItems="center"
         justifyContent="center"
         backgroundColor="#D9D9D9"
+        borderRadius=".625rem"
       >
         <VotingInstructions />
         <InputPanel />

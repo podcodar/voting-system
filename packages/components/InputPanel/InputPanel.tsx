@@ -22,14 +22,15 @@ export default function InputPanel() {
       direction="column"
       alignItems="center"
       justifyContent="center"
-      px="2"
+      px="4rem"
       backgroundColor="#D9D9D9"
+      borderRadius=".625rem"
     >
       <Grid
         templateColumns="repeat(3, 1fr)"
         h="50%"
         w="100%"
-        gap="5"
+        gap="1.75rem"
         justifyItems="center"
         alignContent="center"
         fontFamily="Inter"

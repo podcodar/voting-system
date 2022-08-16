@@ -7,7 +7,7 @@ const VotingInstructions = () => {
         fontSize="16px"
         fontFamily="inter"
         width="45ch"
-        p="6rem 1rem 1rem 1rem"
+        paddingTop="10%"
         textAlign="center"
         fontWeight="700"
       >
