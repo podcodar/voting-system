@@ -1,24 +1,35 @@
+import { FormEvent, useEffect, useState } from 'react';
 import { Heading, Box, Flex, Select, Button } from '@chakra-ui/react';
 import Head from 'next/head';
+import { useRouter } from 'next/router';
 
+import { useVotingContext } from '@packages/features/voting-context';
 import NavBar from '@packages/components/NavBar';
+import { getConfiguration } from '@packages/repository/indexedDb';
+import { useConfigActions } from '@packages/features/config-context';
 
 import type { NextPage } from 'next';
 
-const mockElections = [
-  {
-    electionId: '47b8e344-0243-435d-822b-4192f691f5a7',
-    electionName: 'Dimensão colégio - 06',
-    keyPosition: 'Chefe de turma',
-  },
-  {
-    electionId: '58ebc9cd-5a4d-4902-876c-95008a537657',
-    electionName: 'Dimensão colégio - 07',
-    keyPosition: 'Chefe de turma',
-  },
-];
-
 const Home: NextPage = () => {
+  const router = useRouter();
+  const { availableElections, loadAvailableElections } = useVotingContext();
+  const { setFormState } = useConfigActions();
+  const [selectedElection, setSelectedElection] = useState('');
+  function startElection() {
+    if (selectedElection) router.push(`/voting?electionId=${selectedElection}`);
+  }
+
+  useEffect(() => {
+    async function loadInitialState() {
+      const persistedInitialState = await getConfiguration();
+      const initialState = persistedInitialState;
+      setFormState(initialState);
+      loadAvailableElections(initialState.electionDatabaseId);
+    }
+
+    loadInitialState();
+  }, [loadAvailableElections, setFormState]);
+
   return (
     <>
       <NavBar />
@@ -39,14 +50,26 @@ const Home: NextPage = () => {
               width="100%"
               py="30px"
             >
-              <Select>
-                {mockElections.map((voting) => (
-                  <option key={voting.electionName}>
-                    {voting.electionName}
+              <Select
+                placeholder="Escolha sua Votação"
+                onChange={(e: FormEvent<HTMLSelectElement>) =>
+                  setSelectedElection(e.currentTarget.value)
+                }
+              >
+                {availableElections?.results?.map((election) => (
+                  <option
+                    key={election.electionName}
+                    value={election.electionId}
+                  >
+                    {election.electionName}
                   </option>
                 ))}
               </Select>
-              <Button colorScheme="blue" marginLeft="10px">
+              <Button
+                colorScheme="blue"
+                marginLeft="10px"
+                onClick={startElection}
+              >
                 Iniciar Votação
               </Button>
             </Box>

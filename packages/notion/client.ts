@@ -2,7 +2,7 @@ import { Client } from '@notionhq/client';
 
 import {
   CreateResultPage,
-  GetAvaiableElectionsResponse,
+  GetAvailableElectionsResponse,
   PartyData,
 } from '@packages/entities/notion';
 import {
@@ -18,7 +18,7 @@ const notion = new Client({
 
 export async function getAvaiableElections(
   databaseId: string,
-): Promise<GetAvaiableElectionsResponse> {
+): Promise<GetAvailableElectionsResponse> {
   const { results, next_cursor } = await notion.databases.query({
     database_id: databaseId,
     filter: {
