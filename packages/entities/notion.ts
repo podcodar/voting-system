@@ -8,13 +8,13 @@ export interface GetElectionsPageResponse {
   results: Party[];
 }
 
+export interface GetElectionPageResponse {
+  results: PartyData[];
+}
+
 interface AvailableElections {
   electionId: string;
   electionName: string;
-}
-
-export interface GetElectionPageResponse {
-  results: PartyData[];
 }
 
 export interface CreateElectionResultResponse {
@@ -22,7 +22,7 @@ export interface CreateElectionResultResponse {
   id?: string;
 }
 
-export interface Party extends PartyData, PartyMembers {
+export interface Party extends PartyData {
   votes: number;
 }
 export interface PartyData {
