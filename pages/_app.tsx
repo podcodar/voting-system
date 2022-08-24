@@ -11,15 +11,13 @@ import type { AppProps } from 'next/app';
 function MyApp({ Component, pageProps }: AppProps) {
   return withProviders(
     <ChakraProvider theme={theme}>
-      <VotingCtxProvider>
-        <CSSReset />
-        <Component {...pageProps} />
-      </VotingCtxProvider>
+      <CSSReset />
+      <Component {...pageProps} />
     </ChakraProvider>,
     providers,
   );
 }
 
-const providers = [ConfigProvider];
+const providers = [ConfigProvider, VotingCtxProvider];
 
 export default MyApp;
