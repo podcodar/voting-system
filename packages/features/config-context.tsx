@@ -28,7 +28,6 @@ const [useConfigStates, ConfigStatesProvider] =
   createCtx<ConfigStates>('ConfigStatesCtx');
 
 function ConfigProvider({ children }: ChildrenProps) {
-
   const [formState, setFormState] = useState<FormState>(defaultInitialState);
 
   const onConfigChange = useCallback(

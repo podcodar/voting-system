@@ -16,7 +16,7 @@ const notion = new Client({
   auth: process.env.NEXT_PUBLIC_NOTION_API_KEY,
 });
 
-export async function getAvaiableElections(
+export async function getAvailableElections(
   databaseId: string,
 ): Promise<GetAvailableElectionsResponse> {
   const { results, next_cursor } = await notion.databases.query({
