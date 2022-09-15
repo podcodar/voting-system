@@ -5,7 +5,7 @@ export interface GetAvailableElectionsResponse {
 }
 
 export interface GetElectionsPageResponse {
-  results: PartyData[];
+  results: Party[];
 }
 
 export interface GetElectionPageResponse {
