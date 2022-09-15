@@ -17,12 +17,16 @@ interface AvailableElections {
   electionName: string;
 }
 
+export interface GetElectionPageResponse {
+  results: PartyData[];
+}
+
 export interface CreateElectionResultResponse {
   message: string;
   id?: string;
 }
 
-export interface Party extends PartyData {
+export interface Party extends PartyData, PartyMembers {
   votes: number;
 }
 export interface PartyData {
