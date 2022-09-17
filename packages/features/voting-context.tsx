@@ -17,6 +17,7 @@ interface IVotingCtx {
   parties: Party[];
   availableElections: GetAvailableElectionsResponse;
   voteInput: string;
+  selectedPartyData: selectedPartyData | undefined;
   incrementVote: () => void;
   voteBlank: () => void;
   voteClear: () => void;
@@ -25,10 +26,12 @@ interface IVotingCtx {
   loadAvailableElections: (databaseID: string) => void;
   updateVoteInput: (input: string) => void;
 }
+
 const defaultInitialState = {
   parties: [],
   availableElections: { message: '' },
   voteInput: '',
+  selectedPartyData: undefined,
   incrementVote: () => {},
   voteBlank: () => {},
   voteClear: () => {},
@@ -37,6 +40,23 @@ const defaultInitialState = {
   loadAvailableElections: () => {},
   updateVoteInput: () => {},
 };
+
+interface selectedPartyData {
+  party: Party;
+  candidate: () => {
+    name: string;
+    img: string;
+  };
+  vice: () => {
+    name: string;
+    img: string;
+  };
+  partyInfo: () => {
+    code: string;
+    name: string;
+    slug: string;
+  };
+}
 
 const VotingCtx = createContext<IVotingCtx>(defaultInitialState);
 
@@ -136,7 +156,7 @@ function VotingCtxProvider({ children }: ChildrenProps) {
           img: this.party?.members.viceCandidate.image,
         };
       },
-      partyData: function () {
+      partyInfo: function () {
         return {
           code: this.party?.code,
           name: this.party?.name,

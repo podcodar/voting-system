@@ -11,7 +11,11 @@ import CandidatePhotos from './CandidatePhotos';
 const votingScreenColor = '#D9D9D9';
 
 export default function Display() {
-  const { parties } = useVotingContext();
+  const { parties, selectedPartyData } = useVotingContext();
+
+  const candidate = selectedPartyData?.candidate();
+  const vice = selectedPartyData?.vice();
+  const partyInfo = selectedPartyData?.partyInfo();
 
   useEffect(() => {
     console.log(JSON.stringify(parties));
@@ -26,10 +30,17 @@ export default function Display() {
     >
       <Flex h="100%" justifyContent="end" flexDir="column">
         <DigitBox />
-        <PartyInfo />
+        <PartyInfo
+          candidate={candidate?.name}
+          vice={vice?.name}
+          party={partyInfo?.name}
+        />
       </Flex>
       <Flex h="100%" justify="center" align="flex-end" flexDir="column">
-        <CandidatePhotos />
+        <CandidatePhotos
+          candidatePhoto={candidate?.img}
+          vicePhoto={vice?.img}
+        />
       </Flex>
     </Grid>
   );
