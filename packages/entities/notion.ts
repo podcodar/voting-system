@@ -31,7 +31,7 @@ export interface Party extends PartyData, PartyMembers {
 }
 export interface PartyData {
   id: string;
-  code: number;
+  code: string;
   name: string;
   slug: string;
   members: PartyMembers;
