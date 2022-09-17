@@ -3,7 +3,7 @@ import { Button } from '@chakra-ui/react';
 type Variant = 'confirm' | 'correct' | 'blank' | 'number';
 
 interface Props {
-  onClick: () => void;
+  onClick: (input: string) => void;
   variant: Variant;
   text: string;
 }
@@ -23,7 +23,7 @@ export default function BaseButton(props: Props) {
   const { color, paddingY: paddingY, fontColor } = VARIANT_MAP[variant];
   return (
     <Button
-      onClick={onClick}
+      onClick={() => onClick(text)}
       bg={color}
       py={paddingY}
       style={{ color: fontColor }}
