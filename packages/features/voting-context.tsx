@@ -18,6 +18,8 @@ interface IVotingCtx {
   availableElections: GetAvailableElectionsResponse;
   voteInput: string;
   selectedPartyData: selectedPartyData | undefined;
+  isVoting: boolean;
+  endMessage: string;
   incrementVote: () => void;
   voteBlank: () => void;
   voteClear: () => void;
@@ -32,6 +34,9 @@ const defaultInitialState = {
   availableElections: { message: '' },
   voteInput: '',
   selectedPartyData: undefined,
+  isVoting: true,
+  endMessage: '',
+  setIsVoting: () => {},
   incrementVote: () => {},
   voteBlank: () => {},
   voteClear: () => {},
@@ -108,38 +113,9 @@ function VotingCtxProvider({ children }: ChildrenProps) {
 
   // Voting related
   const [voteInput, setVoteInput] = useState('');
+  const [isVoting, setIsVoting] = useState(true);
+  const [endMessage, setEndMessage] = useState('FIM');
   const secretCode = '12345';
-
-  const updateVoteInput = useCallback(
-    (input: string) => {
-      if (voteInput.length > 5) return;
-
-      if (input.charCodeAt(0) >= 48 && input.charCodeAt(0) <= 57) {
-        setVoteInput(voteInput + input);
-      }
-    },
-    [voteInput],
-  );
-
-  // TODO 'are you sure' step
-
-  const voteBlank = useCallback(() => {
-    // are you sure???
-    console.log('voce votou em branco');
-  }, []);
-  const voteConfirm = useCallback(() => {
-    // are you sure???
-
-    // Check if is end election secret code
-    if (voteInput === secretCode) console.log('election ended');
-
-    // success
-    console.log('voto com sucesso');
-  }, [voteInput]);
-  const voteClear = useCallback(() => {
-    // are you sure???
-    setVoteInput('');
-  }, []);
 
   const selectedPartyData = useMemo(() => {
     return {
@@ -166,6 +142,52 @@ function VotingCtxProvider({ children }: ChildrenProps) {
     };
   }, [partyList, voteInput]);
 
+  const updateVoteInput = useCallback(
+    (input: string) => {
+      if (voteInput.length > 5) return;
+
+      if (input.charCodeAt(0) >= 48 && input.charCodeAt(0) <= 57) {
+        setVoteInput(voteInput + input);
+      }
+    },
+    [voteInput],
+  );
+
+  // TODO 'are you sure' step
+
+  const voteBlank = useCallback(() => {
+    handleVote('Branco');
+    console.log('voce votou em branco');
+  }, []);
+
+  const voteConfirm = useCallback(() => {
+    if (voteInput === secretCode) return handleVotingEnd();
+    if (selectedPartyData.party)
+      return handleVote(selectedPartyData.partyInfo().name);
+
+    console.log('selecione um partido valido');
+  }, [voteInput, selectedPartyData]);
+
+  const voteClear = useCallback(() => {
+    setVoteInput('');
+  }, []);
+
+  function handleVote(message: string) {
+    // TODO update result
+    setIsVoting(false);
+    setEndMessage('Voce Votou em ' + message);
+    setVoteInput('');
+    setTimeout(() => {
+      setIsVoting(true);
+    }, 5000);
+  }
+
+  function handleVotingEnd() {
+    // TODO save result to db
+    setEndMessage('Eleição Encerrada');
+    setIsVoting(false);
+  }
+
   // End of Voting related
 
   const votingData = useMemo(() => {
@@ -174,6 +196,10 @@ function VotingCtxProvider({ children }: ChildrenProps) {
       availableElections: availableElections,
       voteInput: voteInput,
       selectedPartyData: selectedPartyData,
+      isVoting: isVoting,
+      endMessage,
+      handleVote: handleVote,
+      setIsVoting: setIsVoting,
       voteBlank: voteBlank,
       voteConfirm: voteConfirm,
       voteClear: voteClear,
@@ -187,6 +213,9 @@ function VotingCtxProvider({ children }: ChildrenProps) {
     availableElections,
     selectedPartyData,
     voteInput,
+    isVoting,
+    endMessage,
+    setIsVoting,
     voteBlank,
     voteConfirm,
     voteClear,
