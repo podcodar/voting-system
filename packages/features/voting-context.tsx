@@ -72,7 +72,7 @@ function VotingCtxProvider({ children }: ChildrenProps) {
   const incrementVote = useCallback(
     () => (partyCode: number) => {
       const updatedList = partyList.map((party) => {
-        if (party.code !== partyCode) return party;
+        if (party.code !== partyCode.toString()) return party;
 
         return {
           ...party,
@@ -121,6 +121,31 @@ function VotingCtxProvider({ children }: ChildrenProps) {
     setVoteInput('');
   }, []);
 
+  const selectedPartyData = useMemo(() => {
+    return {
+      party: partyList.filter((e) => e.code === voteInput.slice(0, 2))[0],
+      candidate: function () {
+        return {
+          name: this.party?.members.candidate.name,
+          img: this.party?.members.candidate.image,
+        };
+      },
+      vice: function () {
+        return {
+          name: this.party?.members.viceCandidate.name,
+          img: this.party?.members.viceCandidate.image,
+        };
+      },
+      partyData: function () {
+        return {
+          code: this.party?.code,
+          name: this.party?.name,
+          slug: this.party?.slug,
+        };
+      },
+    };
+  }, [partyList, voteInput]);
+
   // End of Voting related
 
   const votingData = useMemo(() => {
@@ -128,6 +153,7 @@ function VotingCtxProvider({ children }: ChildrenProps) {
       parties: partyList,
       availableElections: availableElections,
       voteInput: voteInput,
+      selectedPartyData: selectedPartyData,
       voteBlank: voteBlank,
       voteConfirm: voteConfirm,
       voteClear: voteClear,
@@ -139,6 +165,7 @@ function VotingCtxProvider({ children }: ChildrenProps) {
   }, [
     partyList,
     availableElections,
+    selectedPartyData,
     voteInput,
     voteBlank,
     voteConfirm,
