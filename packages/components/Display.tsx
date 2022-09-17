@@ -5,7 +5,7 @@ import { useVotingContext } from '@packages/features/voting-context';
 
 import DigitBox from './DigitBox';
 import PartyInfo from './PartyInfo';
-import CandidatePhotos from './CadidatePhotos';
+import CandidatePhotos from './CandidatePhotos';
 
 //TODO: Move to centralized theme
 const votingScreenColor = '#D9D9D9';

@@ -1,6 +1,6 @@
 import { Avatar, Flex, Spacer } from '@chakra-ui/react';
 
-interface CadidateCardProps {
+interface CandidateCardProps {
   candidatePhoto?: string;
   vicePhoto?: string;
 }
@@ -8,7 +8,7 @@ interface CadidateCardProps {
 export default function CandidatePhotos({
   candidatePhoto,
   vicePhoto,
-}: CadidateCardProps) {
+}: CandidateCardProps) {
   return (
     <Flex padding="1rem" flexDirection="column">
       <Avatar boxSize="10rem" src={candidatePhoto} />
