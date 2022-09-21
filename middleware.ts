@@ -7,15 +7,17 @@ export function middleware(request: NextRequest) {
 
   switch (pathname) {
     case '/api/elections':
-      _checkElectionParameter(request);
+      return _checkElectionParameter(request);
     case '/api/elections/page':
-      _checkElectionPageParameter(request);
+      return _checkElectionPageParameter(request);
     default:
       NextResponse.next();
   }
 }
 
-function _checkElectionParameter(request: NextRequest) {
+function _checkElectionParameter(
+  request: NextRequest,
+): NextResponse | undefined {
   if (request.method !== 'GET') {
     methodNotAllowed();
   }
@@ -27,7 +29,9 @@ function _checkElectionParameter(request: NextRequest) {
   }
 }
 
-function _checkElectionPageParameter(request: NextRequest) {
+function _checkElectionPageParameter(
+  request: NextRequest,
+): NextResponse | undefined {
   if (request.method !== 'GET') {
     methodNotAllowed();
   }
@@ -39,14 +43,14 @@ function _checkElectionPageParameter(request: NextRequest) {
   }
 }
 
-function _invalidParameterResponse(message: string) {
+function _invalidParameterResponse(message: string): NextResponse {
   return new NextResponse(null, {
     status: 400,
     statusText: message,
   });
 }
 
-function methodNotAllowed() {
+function methodNotAllowed(): NextResponse | undefined {
   return new NextResponse(null, {
     status: 405,
     statusText: 'Method Not Allowed.',
