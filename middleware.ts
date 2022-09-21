@@ -19,7 +19,7 @@ function _checkElectionParameter(
   request: NextRequest,
 ): NextResponse | undefined {
   if (request.method !== 'GET') {
-    methodNotAllowed();
+    return methodNotAllowed();
   }
   const { searchParams } = request.nextUrl;
   const databaseId: string | null = searchParams.get('databaseId');
@@ -33,7 +33,7 @@ function _checkElectionPageParameter(
   request: NextRequest,
 ): NextResponse | undefined {
   if (request.method !== 'GET') {
-    methodNotAllowed();
+    return methodNotAllowed();
   }
   const { searchParams } = request.nextUrl;
   const pageId: string | null = searchParams.get('pageId');
