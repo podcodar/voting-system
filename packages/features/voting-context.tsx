@@ -21,9 +21,9 @@ interface IVotingCtx {
   isVoting: boolean;
   endMessage: string;
   incrementVote: () => void;
-  voteBlank: () => void;
-  voteClear: () => void;
-  voteConfirm: () => void;
+  blankHandler: () => void;
+  clearHandler: () => void;
+  confirmHandler: () => void;
   loadParties: (pageId: string) => void;
   loadAvailableElections: (databaseID: string) => void;
   updateVoteInput: (input: string) => void;
@@ -38,9 +38,9 @@ const defaultInitialState = {
   endMessage: '',
   setIsVoting: () => {},
   incrementVote: () => {},
-  voteBlank: () => {},
-  voteClear: () => {},
-  voteConfirm: () => {},
+  blankHandler: () => {},
+  clearHandler: () => {},
+  confirmHandler: () => {},
   loadParties: () => {},
   loadAvailableElections: () => {},
   updateVoteInput: () => {},
@@ -155,12 +155,12 @@ function VotingCtxProvider({ children }: ChildrenProps) {
 
   // TODO 'are you sure' step
 
-  const voteBlank = useCallback(() => {
+  const blankHandler = useCallback(() => {
     handleVote('Branco');
     console.log('voce votou em branco');
   }, []);
 
-  const voteConfirm = useCallback(() => {
+  const confirmHandler = useCallback(() => {
     if (voteInput === secretCode) return handleVotingEnd();
     if (selectedPartyData.party)
       return handleVote(selectedPartyData.partyInfo().name);
@@ -168,7 +168,7 @@ function VotingCtxProvider({ children }: ChildrenProps) {
     console.log('selecione um partido valido');
   }, [voteInput, selectedPartyData]);
 
-  const voteClear = useCallback(() => {
+  const clearHandler = useCallback(() => {
     setVoteInput('');
   }, []);
 
@@ -200,9 +200,9 @@ function VotingCtxProvider({ children }: ChildrenProps) {
       endMessage,
       handleVote: handleVote,
       setIsVoting: setIsVoting,
-      voteBlank: voteBlank,
-      voteConfirm: voteConfirm,
-      voteClear: voteClear,
+      blankHandler: blankHandler,
+      confirmHandler: confirmHandler,
+      clearHandler: clearHandler,
       updateVoteInput: updateVoteInput,
       incrementVote: incrementVote,
       loadParties: loadParties,
@@ -216,9 +216,9 @@ function VotingCtxProvider({ children }: ChildrenProps) {
     isVoting,
     endMessage,
     setIsVoting,
-    voteBlank,
-    voteConfirm,
-    voteClear,
+    blankHandler,
+    confirmHandler,
+    clearHandler,
     updateVoteInput,
     incrementVote,
     loadParties,

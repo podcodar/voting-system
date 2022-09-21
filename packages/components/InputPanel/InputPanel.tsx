@@ -9,7 +9,7 @@ import { NumericButton } from './NumericButton';
 const digitList = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0'];
 
 export default function InputPanel() {
-  const { updateVoteInput, voteBlank, voteConfirm, voteClear } =
+  const { updateVoteInput, blankHandler, confirmHandler, clearHandler } =
     useVotingContext();
   return (
     <Flex
@@ -43,9 +43,13 @@ export default function InputPanel() {
         justifyContent="space-between"
         gap="6"
       >
-        <BaseButton onClick={voteBlank} text="Branco" variant="blank" />
-        <BaseButton onClick={voteClear} text="Corrige" variant="correct" />
-        <BaseButton onClick={voteConfirm} text="Confirma" variant="confirm" />
+        <BaseButton onClick={blankHandler} text="Branco" variant="blank" />
+        <BaseButton onClick={clearHandler} text="Corrige" variant="correct" />
+        <BaseButton
+          onClick={confirmHandler}
+          text="Confirma"
+          variant="confirm"
+        />
       </Flex>
     </Flex>
   );
