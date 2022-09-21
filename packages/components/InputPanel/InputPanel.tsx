@@ -32,7 +32,7 @@ export default function InputPanel() {
         fontSize="1.1rem"
       >
         {digitList.map((num) => (
-          <NumericButton key={num} onClick={updateVoteInput}>
+          <NumericButton key={num} clickHandler={updateVoteInput}>
             {num}
           </NumericButton>
         ))}
@@ -43,10 +43,14 @@ export default function InputPanel() {
         justifyContent="space-between"
         gap="6"
       >
-        <BaseButton onClick={blankHandler} text="Branco" variant="blank" />
-        <BaseButton onClick={clearHandler} text="Corrige" variant="correct" />
+        <BaseButton clickHandler={blankHandler} text="Branco" variant="blank" />
         <BaseButton
-          onClick={confirmHandler}
+          clickHandler={clearHandler}
+          text="Corrige"
+          variant="correct"
+        />
+        <BaseButton
+          clickHandler={confirmHandler}
           text="Confirma"
           variant="confirm"
         />

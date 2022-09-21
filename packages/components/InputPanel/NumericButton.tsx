@@ -4,15 +4,19 @@ import BaseButton from '../BaseButton';
 
 interface Props {
   children: string;
-  onClick: (input: string) => void;
+  clickHandler: (input: string) => void;
 }
 
 export const NumericButton = (props: Props) => {
-  const { children, onClick } = props;
+  const { children, clickHandler } = props;
   const colStart = children === '0' ? 2 : undefined;
   return (
     <GridItem w="100%" h="100%" colStart={colStart}>
-      <BaseButton onClick={onClick} text={children} variant="number" />
+      <BaseButton
+        clickHandler={clickHandler}
+        text={children}
+        variant="number"
+      />
     </GridItem>
   );
 };
