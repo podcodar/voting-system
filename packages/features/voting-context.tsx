@@ -154,10 +154,12 @@ function VotingCtxProvider({ children }: ChildrenProps) {
   );
 
   // TODO 'are you sure' step
-
   const blankHandler = useCallback(() => {
     handleVote('Branco');
-    console.log('voce votou em branco');
+  }, []);
+
+  const nullHandler = useCallback(() => {
+    handleVote('Nulo');
   }, []);
 
   const confirmHandler = useCallback(() => {
@@ -165,8 +167,8 @@ function VotingCtxProvider({ children }: ChildrenProps) {
     if (selectedPartyData.party)
       return handleVote(selectedPartyData.partyInfo().name);
 
-    console.log('selecione um partido valido');
-  }, [voteInput, selectedPartyData]);
+    nullHandler();
+  }, [voteInput, selectedPartyData, nullHandler]);
 
   const clearHandler = useCallback(() => {
     setVoteInput('');
@@ -175,7 +177,7 @@ function VotingCtxProvider({ children }: ChildrenProps) {
   function handleVote(message: string) {
     // TODO update result
     setIsVoting(false);
-    setEndMessage('Voce Votou em ' + message);
+    setEndMessage('Você Votou em ' + message);
     setVoteInput('');
     setTimeout(() => {
       setIsVoting(true);
