@@ -1,4 +1,3 @@
-import { useEffect } from 'react';
 import { Flex, Grid } from '@chakra-ui/react';
 
 import { useVotingContext } from '@packages/features/voting-context';
@@ -11,15 +10,11 @@ import CandidatePhotos from './CandidatePhotos';
 const votingScreenColor = '#D9D9D9';
 
 export default function Display() {
-  const { parties, selectedPartyData } = useVotingContext();
+  const { selectedPartyData } = useVotingContext();
 
   const candidate = selectedPartyData?.candidate();
   const vice = selectedPartyData?.vice();
   const partyInfo = selectedPartyData?.partyInfo();
-
-  useEffect(() => {
-    console.log(JSON.stringify(parties));
-  }, [parties]);
 
   return (
     <Grid
