@@ -10,7 +10,7 @@ const ELECTION_PAGE_URL = (pageId: string) =>
   `/api/elections/page?pageId=${pageId}`;
 
 export const electionsApi = {
-  getAvaiableElections: async (databaseId: string) =>
+  getAvailableElections: async (databaseId: string) =>
     fetchData<GetAvailableElectionsResponse>(ELECTIONS_URL(databaseId), {
       method: 'GET',
     }),
