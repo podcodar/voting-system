@@ -10,14 +10,8 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-
-
+// TODO(vzsoares): define models
 model Candidate {
-  id      Int       @id
+  id        Int      @id
   candidate String[]
 }
-
-// type Candidate {
-//     name    String
-//     role    String
-// }
