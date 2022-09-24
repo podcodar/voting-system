@@ -1,6 +1,7 @@
 import {
   GetAvailableElectionsResponse,
   GetElectionsPageResponse,
+  ResultElection,
 } from '@packages/entities/notion';
 
 const ELECTIONS_URL = (databaseId: string) =>
@@ -8,6 +9,9 @@ const ELECTIONS_URL = (databaseId: string) =>
 
 const ELECTION_PAGE_URL = (pageId: string) =>
   `/api/elections/page?pageId=${pageId}`;
+
+const RESULT_ELECTION_URL = (databaseId: string, electionId: string) =>
+  `/api/elections/result?databaseId=${databaseId}&electionId=${electionId}`;
 
 export const electionsApi = {
   getAvaiableElections: async (databaseId: string) =>
@@ -17,6 +21,15 @@ export const electionsApi = {
   getElectionPage: async (pageId: string) =>
     fetchData<GetElectionsPageResponse>(ELECTION_PAGE_URL(pageId), {
       method: 'GET',
+    }),
+  postResultElection: async (
+    databaseId: string,
+    electionId: string,
+    resultElection: ResultElection,
+  ) =>
+    fetchData<ResultElection>(RESULT_ELECTION_URL(databaseId, electionId), {
+      method: 'POST',
+      body: JSON.stringify(resultElection),
     }),
 };
 

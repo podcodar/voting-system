@@ -51,6 +51,12 @@ export interface CreateResultPage {
   looserParty: PartySummary;
 }
 
+export interface ResultElection {
+  electionName: string;
+  winnerParty: PartySummary;
+  looserParty: PartySummary;
+}
+
 interface PartySummary {
   name: string;
   members: string[];
