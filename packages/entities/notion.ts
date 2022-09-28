@@ -47,12 +47,9 @@ interface Candidate {
   image: string;
 }
 
-export interface CreateResultPage {
+export interface CreateResultPage extends ResultElection {
   databaseId: string;
-  electionName: string;
   electionId: string;
-  winnerParty: PartySummary;
-  looserParty: PartySummary;
 }
 
 export interface ResultElection {
