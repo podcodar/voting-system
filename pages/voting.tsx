@@ -3,7 +3,6 @@ import { useRouter } from 'next/router';
 import { Grid, Heading, Center, Flex } from '@chakra-ui/react';
 
 import Display from '@packages/components/Display';
-import VotingInstructions from '@packages/components/VotingInstruction';
 import InputPanel from '@packages/components/InputPanel/InputPanel';
 import { useVotingContext } from '@packages/features/voting-context';
 
@@ -38,7 +37,6 @@ const VotingPage: NextPage = () => {
           backgroundColor="#D9D9D9"
           borderRadius=".625rem"
         >
-          <VotingInstructions />
           <InputPanel />
         </Flex>
       </Grid>

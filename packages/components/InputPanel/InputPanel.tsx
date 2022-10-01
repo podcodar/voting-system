@@ -25,6 +25,7 @@ export default function InputPanel() {
       px="4rem"
       backgroundColor="#D9D9D9"
       borderRadius=".625rem"
+      gap="4rem"
     >
       <Grid
         templateColumns="repeat(3, 1fr)"
