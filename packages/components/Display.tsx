@@ -10,7 +10,7 @@ import CandidatePhotos from './CandidatePhotos';
 const votingScreenColor = '#D9D9D9';
 
 export default function Display() {
-  const { selectedParty } = useVotingContext();
+  const { selectedParty, nullVote, blankConfirm } = useVotingContext();
 
   const candidate = selectedParty?.members.candidate;
   const vice = selectedParty?.members.viceCandidate;
@@ -31,7 +31,7 @@ export default function Display() {
         />
       </Flex>
       <Flex flexDir="column" gap="1rem">
-        {false ? (
+        {nullVote || blankConfirm ? (
           <NullBlankBox />
         ) : (
           <PartyInfo
@@ -72,6 +72,7 @@ function VoteInstructions() {
 }
 
 function NullBlankBox() {
+  const { blankConfirm } = useVotingContext();
   return (
     <Center>
       <Text
@@ -81,7 +82,7 @@ function NullBlankBox() {
           fontWeight: '700',
         }}
       >
-        VOTO NULO
+        {`VOTO ${!blankConfirm ? 'NULO' : 'EM BRANCO'}`}
       </Text>
     </Center>
   );
