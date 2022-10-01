@@ -8,7 +8,7 @@ export default async function handler(
   res: NextApiResponse<GetAvailableElectionsResponse>,
 ) {
   const { databaseId } = req.query;
-  if (!Array.isArray(databaseId)) {
+  if (typeof databaseId === 'string') {
     const results = await getAvailableElections(databaseId);
     return res.status(200).json(results);
   }
