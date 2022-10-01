@@ -21,25 +21,28 @@ const VotingPage: NextPage = () => {
   }, [loadParties, router]);
 
   return (
-    <Grid
-      templateColumns="2fr 1fr"
-      gap="3"
-      h="100vh"
-      p="10"
-      alignItems="center"
-    >
-      {isVoting ? <Display /> : <VotingEndBox />}
-      <Flex
-        h="82%"
-        direction="column"
-        justifyContent="center"
-        backgroundColor="#D9D9D9"
-        borderRadius=".625rem"
+    <Center>
+      <Grid
+        templateColumns="2fr 1fr"
+        gap="3"
+        h="100vh"
+        p="10"
+        alignItems="center"
+        maxW="1980px"
       >
-        <VotingInstructions />
-        <InputPanel />
-      </Flex>
-    </Grid>
+        {isVoting ? <Display /> : <VotingEndBox />}
+        <Flex
+          h="82%"
+          direction="column"
+          justifyContent="center"
+          backgroundColor="#D9D9D9"
+          borderRadius=".625rem"
+        >
+          <VotingInstructions />
+          <InputPanel />
+        </Flex>
+      </Grid>
+    </Center>
   );
 };
 
