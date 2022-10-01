@@ -9,8 +9,13 @@ import { NumericButton } from './NumericButton';
 const digitList = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0'];
 
 export default function InputPanel() {
-  const { updateVoteInput, blankHandler, confirmHandler, clearHandler } =
-    useVotingContext();
+  const {
+    blankConfirm,
+    updateVoteInput,
+    blankHandler,
+    confirmHandler,
+    clearHandler,
+  } = useVotingContext();
   return (
     <Flex
       h="100%"
@@ -30,6 +35,7 @@ export default function InputPanel() {
         fontFamily="Inter"
         fontWeight="normal"
         fontSize="1.1rem"
+        cursor={`${blankConfirm && 'not-allowed'}`}
       >
         {digitList.map((num) => (
           <NumericButton key={num} clickHandler={updateVoteInput}>

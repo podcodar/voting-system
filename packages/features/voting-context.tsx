@@ -134,11 +134,10 @@ function VotingCtxProvider({ children }: ChildrenProps) {
     [voteInput],
   );
 
-  // TODO 'are you sure' step
   const blankHandler = useCallback(() => {
     if (blankConfirm) return;
-    else return setBlankConfirm(true);
-  }, [blankConfirm]);
+    else if (voteInput.length === 0) return setBlankConfirm(true);
+  }, [blankConfirm, voteInput]);
 
   const nullHandler = useCallback(() => {
     handleVote('Nulo');
