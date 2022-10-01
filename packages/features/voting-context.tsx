@@ -51,7 +51,7 @@ function VotingCtxProvider({ children }: ChildrenProps) {
       getData();
     }
     async function getData() {
-      const res = await electionsApi.getAvaiableElections(databaseID);
+      const res = await electionsApi.getAvailableElections(databaseID);
       if (res) setAvailableElections(res);
     }
   }, []);

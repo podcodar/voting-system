@@ -8,6 +8,10 @@ export interface GetElectionsPageResponse {
   results: Party[];
 }
 
+export interface GetElectionPageResponse {
+  results: PartyData[];
+}
+
 interface AvailableElections {
   electionId: string;
   electionName: string;
