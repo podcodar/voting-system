@@ -1,4 +1,4 @@
-import { Flex, Grid } from '@chakra-ui/react';
+import { Flex } from '@chakra-ui/react';
 
 import { useVotingContext } from '@packages/features/voting-context';
 
@@ -17,26 +17,26 @@ export default function Display() {
   const partyName = selectedParty?.name;
 
   return (
-    <Grid
-      bg={votingScreenColor}
-      templateColumns="1fr 1fr"
-      h="80%"
-      alignSelf="center"
-    >
-      <Flex h="100%" justifyContent="end" flexDir="column">
+    <Flex bg={votingScreenColor} flexDir="column" justify="space-between">
+      <Flex
+        flexDir="row"
+        flexGrow="1"
+        justify="space-between"
+        alignItems="center"
+      >
         <DigitBox />
+        <CandidatePhotos
+          candidatePhoto={candidate?.image}
+          vicePhoto={vice?.image}
+        />
+      </Flex>
+      <Flex>
         <PartyInfo
           candidate={candidate?.name}
           vice={vice?.name}
           party={partyName}
         />
       </Flex>
-      <Flex h="100%" justify="center" align="flex-end" flexDir="column">
-        <CandidatePhotos
-          candidatePhoto={candidate?.image}
-          vicePhoto={vice?.image}
-        />
-      </Flex>
-    </Grid>
+    </Flex>
   );
 }
