@@ -4,7 +4,7 @@ export interface IConfig {
 }
 
 export interface IVotes {
-  id: number;
-  code: number;
+  id: string;
+  code: string;
   electionId: string;
 }
