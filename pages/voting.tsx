@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useRouter } from 'next/router';
 import { Grid, Heading, Center, Flex } from '@chakra-ui/react';
 
@@ -11,15 +11,7 @@ import type { NextPage } from 'next';
 
 const VotingPage: NextPage = () => {
   const router = useRouter();
-  const { loadParties } = useVotingContext();
-  const [isVoting] = useState(true);
-
-  // function handleVote() {
-  //   setIsVoting(false);
-  //   setTimeout(() => {
-  //     setIsVoting(true);
-  //   }, 5000);
-  // }
+  const { loadParties, isVoting } = useVotingContext();
 
   useEffect(() => {
     const electionId = router.query.electionId;
@@ -46,9 +38,10 @@ const VotingPage: NextPage = () => {
 };
 
 function VotingEndBox() {
+  const { endMessage } = useVotingContext();
   return (
     <Center w="100%" h="100%">
-      <Heading>FIM</Heading>
+      <Heading>{endMessage}</Heading>
     </Center>
   );
 }

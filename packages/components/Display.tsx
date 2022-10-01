@@ -1,21 +1,20 @@
-import { useEffect } from 'react';
 import { Flex, Grid } from '@chakra-ui/react';
 
 import { useVotingContext } from '@packages/features/voting-context';
 
 import DigitBox from './DigitBox';
 import PartyInfo from './PartyInfo';
-import CandidatePhotos from './CadidatePhotos';
+import CandidatePhotos from './CandidatePhotos';
 
 //TODO: Move to centralized theme
 const votingScreenColor = '#D9D9D9';
 
 export default function Display() {
-  const { parties } = useVotingContext();
+  const { selectedParty } = useVotingContext();
 
-  useEffect(() => {
-    console.log(JSON.stringify(parties));
-  }, [parties]);
+  const candidate = selectedParty?.members.candidate;
+  const vice = selectedParty?.members.viceCandidate;
+  const partyName = selectedParty?.name;
 
   return (
     <Grid
@@ -26,10 +25,17 @@ export default function Display() {
     >
       <Flex h="100%" justifyContent="end" flexDir="column">
         <DigitBox />
-        <PartyInfo />
+        <PartyInfo
+          candidate={candidate?.name}
+          vice={vice?.name}
+          party={partyName}
+        />
       </Flex>
       <Flex h="100%" justify="center" align="flex-end" flexDir="column">
-        <CandidatePhotos />
+        <CandidatePhotos
+          candidatePhoto={candidate?.image}
+          vicePhoto={vice?.image}
+        />
       </Flex>
     </Grid>
   );
