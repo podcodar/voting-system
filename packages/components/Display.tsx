@@ -10,11 +10,11 @@ import CandidatePhotos from './CandidatePhotos';
 const votingScreenColor = '#D9D9D9';
 
 export default function Display() {
-  const { selectedPartyData } = useVotingContext();
+  const { selectedParty } = useVotingContext();
 
-  const candidate = selectedPartyData?.candidate();
-  const vice = selectedPartyData?.vice();
-  const partyInfo = selectedPartyData?.partyInfo();
+  const candidate = selectedParty?.members.candidate;
+  const vice = selectedParty?.members.viceCandidate;
+  const partyName = selectedParty?.name;
 
   return (
     <Grid
@@ -28,13 +28,13 @@ export default function Display() {
         <PartyInfo
           candidate={candidate?.name}
           vice={vice?.name}
-          party={partyInfo?.name}
+          party={partyName}
         />
       </Flex>
       <Flex h="100%" justify="center" align="flex-end" flexDir="column">
         <CandidatePhotos
-          candidatePhoto={candidate?.img}
-          vicePhoto={vice?.img}
+          candidatePhoto={candidate?.image}
+          vicePhoto={vice?.image}
         />
       </Flex>
     </Grid>

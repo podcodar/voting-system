@@ -4,6 +4,7 @@ import {
   useContext,
   useMemo,
   useCallback,
+  useEffect,
 } from 'react';
 
 import { ChildrenProps } from '@packages/utils/react';
@@ -17,7 +18,7 @@ interface IVotingCtx {
   parties: Party[];
   availableElections: GetAvailableElectionsResponse;
   voteInput: string;
-  selectedPartyData: selectedPartyData | undefined;
+  selectedParty: Party | undefined;
   isVoting: boolean;
   endMessage: string;
   incrementVote: () => void;
@@ -33,7 +34,7 @@ const defaultInitialState = {
   parties: [],
   availableElections: { message: '' },
   voteInput: '',
-  selectedPartyData: undefined,
+  selectedParty: undefined,
   isVoting: true,
   endMessage: '',
   setIsVoting: () => {},
@@ -45,23 +46,6 @@ const defaultInitialState = {
   loadAvailableElections: () => {},
   updateVoteInput: () => {},
 };
-
-interface selectedPartyData {
-  party: Party;
-  candidate: () => {
-    name: string;
-    img: string;
-  };
-  vice: () => {
-    name: string;
-    img: string;
-  };
-  partyInfo: () => {
-    code: string;
-    name: string;
-    slug: string;
-  };
-}
 
 const VotingCtx = createContext<IVotingCtx>(defaultInitialState);
 
@@ -114,33 +98,21 @@ function VotingCtxProvider({ children }: ChildrenProps) {
   // Voting related
   const [voteInput, setVoteInput] = useState('');
   const [isVoting, setIsVoting] = useState(true);
+  const [selectedParty, setSelectedParty] = useState<Party>();
   const [endMessage, setEndMessage] = useState('FIM');
   const secretCode = '12345';
 
-  const selectedPartyData = useMemo(() => {
-    return {
-      party: partyList.filter((e) => e.code === voteInput.slice(0, 2))[0],
-      candidate: function () {
-        return {
-          name: this.party?.members.candidate.name,
-          img: this.party?.members.candidate.image,
-        };
-      },
-      vice: function () {
-        return {
-          name: this.party?.members.viceCandidate.name,
-          img: this.party?.members.viceCandidate.image,
-        };
-      },
-      partyInfo: function () {
-        return {
-          code: this.party?.code,
-          name: this.party?.name,
-          slug: this.party?.slug,
-        };
-      },
-    };
-  }, [partyList, voteInput]);
+  useEffect(() => {
+    if (voteInput) {
+      const result = partyList.find((party) => {
+        return party.code === voteInput;
+      });
+
+      if (result) {
+        setSelectedParty(result);
+      }
+    }
+  }, [partyList, selectedParty, voteInput]);
 
   const updateVoteInput = useCallback(
     (input: string) => {
@@ -164,11 +136,11 @@ function VotingCtxProvider({ children }: ChildrenProps) {
 
   const confirmHandler = useCallback(() => {
     if (voteInput === secretCode) return handleVotingEnd();
-    if (selectedPartyData.party)
-      return handleVote(selectedPartyData.partyInfo().name);
+    if (selectedParty && selectedParty.name)
+      return handleVote(selectedParty.name);
 
     nullHandler();
-  }, [voteInput, selectedPartyData, nullHandler]);
+  }, [voteInput, selectedParty, nullHandler]);
 
   const clearHandler = useCallback(() => {
     setVoteInput('');
@@ -197,7 +169,7 @@ function VotingCtxProvider({ children }: ChildrenProps) {
       parties: partyList,
       availableElections: availableElections,
       voteInput: voteInput,
-      selectedPartyData: selectedPartyData,
+      selectedParty: selectedParty,
       isVoting: isVoting,
       endMessage,
       handleVote: handleVote,
@@ -213,7 +185,7 @@ function VotingCtxProvider({ children }: ChildrenProps) {
   }, [
     partyList,
     availableElections,
-    selectedPartyData,
+    selectedParty,
     voteInput,
     isVoting,
     endMessage,
