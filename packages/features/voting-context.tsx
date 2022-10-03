@@ -22,7 +22,7 @@ interface IVotingCtx {
   isVoting: boolean;
   endMessage: string;
   nullVote: boolean;
-  blankConfirm: boolean;
+  isBlackSelected: boolean;
   incrementVote: () => void;
   blankHandler: () => void;
   clearHandler: () => void;
@@ -40,7 +40,7 @@ const defaultInitialState = {
   isVoting: true,
   endMessage: '',
   nullVote: false,
-  blankConfirm: false,
+  isBlackSelected: false,
   setIsVoting: () => {},
   incrementVote: () => {},
   blankHandler: () => {},
@@ -104,7 +104,7 @@ function VotingCtxProvider({ children }: ChildrenProps) {
   const [isVoting, setIsVoting] = useState(true);
   const [selectedParty, setSelectedParty] = useState<Party>();
   const [endMessage, setEndMessage] = useState('FIM');
-  const [blankConfirm, setBlankConfirm] = useState(false);
+  const [isBlackSelected, setBlankConfirm] = useState(false);
 
   const nullVote = selectedParty === undefined && voteInput.length >= 2;
   const secretCode = '12345';
@@ -135,22 +135,22 @@ function VotingCtxProvider({ children }: ChildrenProps) {
   );
 
   const blankHandler = useCallback(() => {
-    if (blankConfirm) return;
+    if (isBlackSelected) return;
     else if (voteInput.length === 0) return setBlankConfirm(true);
-  }, [blankConfirm, voteInput]);
+  }, [isBlackSelected, voteInput]);
 
   const nullHandler = useCallback(() => {
     handleVote('Nulo');
   }, []);
 
   const confirmHandler = useCallback(() => {
-    if (blankConfirm) return handleVote('Branco');
+    if (isBlackSelected) return handleVote('Branco');
     if (voteInput === secretCode) return handleVotingEnd();
     if (selectedParty && selectedParty.name)
       return handleVote(selectedParty.name);
 
     if (voteInput.length >= 2) nullHandler();
-  }, [voteInput, selectedParty, blankConfirm, nullHandler]);
+  }, [voteInput, selectedParty, isBlackSelected, nullHandler]);
 
   const clearHandler = useCallback(() => {
     setVoteInput('');
@@ -185,7 +185,7 @@ function VotingCtxProvider({ children }: ChildrenProps) {
       isVoting: isVoting,
       endMessage,
       nullVote,
-      blankConfirm,
+      isBlackSelected,
       handleVote: handleVote,
       setIsVoting: setIsVoting,
       blankHandler: blankHandler,
@@ -204,7 +204,7 @@ function VotingCtxProvider({ children }: ChildrenProps) {
     isVoting,
     endMessage,
     nullVote,
-    blankConfirm,
+    isBlackSelected,
     setIsVoting,
     blankHandler,
     confirmHandler,

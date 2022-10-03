@@ -10,7 +10,7 @@ const digitList = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0'];
 
 export default function InputPanel() {
   const {
-    blankConfirm,
+    isBlackSelected,
     updateVoteInput,
     blankHandler,
     confirmHandler,
@@ -35,7 +35,7 @@ export default function InputPanel() {
         fontFamily="Inter"
         fontWeight="normal"
         fontSize="1.1rem"
-        cursor={`${blankConfirm && 'not-allowed'}`}
+        cursor={`${isBlackSelected && 'not-allowed'}`}
       >
         {digitList.map((num) => (
           <NumericButton key={num} clickHandler={updateVoteInput}>
