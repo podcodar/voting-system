@@ -21,6 +21,8 @@ interface IVotingCtx {
   selectedParty: Party | undefined;
   isVoting: boolean;
   endMessage: string;
+  nullVote: boolean;
+  isBlackSelected: boolean;
   incrementVote: () => void;
   blankHandler: () => void;
   clearHandler: () => void;
@@ -37,6 +39,8 @@ const defaultInitialState = {
   selectedParty: undefined,
   isVoting: true,
   endMessage: '',
+  nullVote: false,
+  isBlackSelected: false,
   setIsVoting: () => {},
   incrementVote: () => {},
   blankHandler: () => {},
@@ -100,6 +104,9 @@ function VotingCtxProvider({ children }: ChildrenProps) {
   const [isVoting, setIsVoting] = useState(true);
   const [selectedParty, setSelectedParty] = useState<Party>();
   const [endMessage, setEndMessage] = useState('FIM');
+  const [isBlackSelected, setBlankConfirm] = useState(false);
+
+  const nullVote = selectedParty === undefined && voteInput.length >= 2;
   const secretCode = '12345';
 
   useEffect(() => {
@@ -111,7 +118,9 @@ function VotingCtxProvider({ children }: ChildrenProps) {
       if (result) {
         setSelectedParty(result);
       }
+      return;
     }
+    setSelectedParty(undefined);
   }, [partyList, selectedParty, voteInput]);
 
   const updateVoteInput = useCallback(
@@ -125,25 +134,27 @@ function VotingCtxProvider({ children }: ChildrenProps) {
     [voteInput],
   );
 
-  // TODO 'are you sure' step
   const blankHandler = useCallback(() => {
-    handleVote('Branco');
-  }, []);
+    if (isBlackSelected) return;
+    else if (voteInput.length === 0) return setBlankConfirm(true);
+  }, [isBlackSelected, voteInput]);
 
   const nullHandler = useCallback(() => {
     handleVote('Nulo');
   }, []);
 
   const confirmHandler = useCallback(() => {
+    if (isBlackSelected) return handleVote('Branco');
     if (voteInput === secretCode) return handleVotingEnd();
     if (selectedParty && selectedParty.name)
       return handleVote(selectedParty.name);
 
-    nullHandler();
-  }, [voteInput, selectedParty, nullHandler]);
+    if (voteInput.length >= 2) nullHandler();
+  }, [voteInput, selectedParty, isBlackSelected, nullHandler]);
 
   const clearHandler = useCallback(() => {
     setVoteInput('');
+    setBlankConfirm(false);
   }, []);
 
   function handleVote(message: string) {
@@ -151,9 +162,10 @@ function VotingCtxProvider({ children }: ChildrenProps) {
     setIsVoting(false);
     setEndMessage('Você Votou em ' + message);
     setVoteInput('');
+    setBlankConfirm(false);
     setTimeout(() => {
       setIsVoting(true);
-    }, 5000);
+    }, 1000);
   }
 
   function handleVotingEnd() {
@@ -172,6 +184,8 @@ function VotingCtxProvider({ children }: ChildrenProps) {
       selectedParty: selectedParty,
       isVoting: isVoting,
       endMessage,
+      nullVote,
+      isBlackSelected,
       handleVote: handleVote,
       setIsVoting: setIsVoting,
       blankHandler: blankHandler,
@@ -189,6 +203,8 @@ function VotingCtxProvider({ children }: ChildrenProps) {
     voteInput,
     isVoting,
     endMessage,
+    nullVote,
+    isBlackSelected,
     setIsVoting,
     blankHandler,
     confirmHandler,
