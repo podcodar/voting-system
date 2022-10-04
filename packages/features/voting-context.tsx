@@ -101,23 +101,27 @@ function VotingCtxProvider({ children }: ChildrenProps) {
 
   // Voting related
   const [voteInput, setVoteInput] = useState('');
+  const [nullVote, setNullVote] = useState<boolean>(false);
   const [isVoting, setIsVoting] = useState(true);
   const [selectedParty, setSelectedParty] = useState<Party>();
   const [endMessage, setEndMessage] = useState('FIM');
   const [isBlankSelected, setBlankConfirm] = useState(false);
 
-  const nullVote = selectedParty === undefined && voteInput.length >= 2;
   const secretCode = '12345';
 
   useEffect(() => {
-    if (voteInput) {
+    if (voteInput && voteInput.length == 2) {
       const result = partyList.find((party) => {
         return party.code === voteInput;
       });
 
       if (result) {
         setSelectedParty(result);
+        setNullVote(false);
+        return;
       }
+
+      setNullVote(true);
       return;
     }
     setSelectedParty(undefined);
