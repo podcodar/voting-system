@@ -2,7 +2,7 @@ import Dexie, { Table } from 'dexie';
 import { v4 as uuid } from 'uuid';
 
 import { ConfigStates } from '@packages/features/config-context';
-import { IConfig, IVotes } from '@packages/entities/indexedDb';
+import { IConfig, IVote } from '@packages/entities/indexedDb';
 import {
   configContextToPersistence,
   configPersistenceToContext,
@@ -10,7 +10,7 @@ import {
 
 export default class VSDatabase extends Dexie {
   configuration!: Table<IConfig, string>;
-  votes!: Table<IVotes, string>;
+  votes!: Table<IVote, string>;
 
   constructor() {
     super('VSDatabase');
@@ -42,7 +42,7 @@ export async function putConfiguration(
 }
 
 export async function addVote(code: string, electionId: string) {
-  const payload: IVotes = {
+  const payload: IVote = {
     id: uuid(),
     code: code,
     electionId: electionId,

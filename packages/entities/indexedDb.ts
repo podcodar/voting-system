@@ -3,7 +3,7 @@ export interface IConfig {
   value: string;
 }
 
-export interface IVotes {
+export interface IVote {
   id: string;
   code: string;
   electionId: string;
