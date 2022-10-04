@@ -159,6 +159,7 @@ function VotingCtxProvider({ children }: ChildrenProps) {
   const clearHandler = useCallback(() => {
     setVoteInput('');
     setBlankConfirm(false);
+    setNullVote(false);
   }, []);
 
   function handleVote(message: string) {
@@ -167,6 +168,7 @@ function VotingCtxProvider({ children }: ChildrenProps) {
     setEndMessage('Você Votou em ' + message);
     setVoteInput('');
     setBlankConfirm(false);
+    setNullVote(false);
     setTimeout(() => {
       setIsVoting(true);
     }, 1000);
