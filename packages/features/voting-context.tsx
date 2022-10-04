@@ -7,6 +7,7 @@ import {
   useEffect,
 } from 'react';
 
+import { PlayFim } from '@packages/components/AudioTags';
 import { ChildrenProps } from '@packages/utils/react';
 import {
   GetAvailableElectionsResponse,
@@ -178,6 +179,7 @@ function VotingCtxProvider({ children }: ChildrenProps) {
 
   function handleVote(message: string) {
     // TODO update result
+    PlayFim();
     setIsVoting(false);
     setEndMessage('Você Votou em ' + message);
     setVoteInput('');
