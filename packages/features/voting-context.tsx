@@ -114,9 +114,9 @@ function VotingCtxProvider({ children }: ChildrenProps) {
   const secretCode = '12345';
 
   useEffect(() => {
-    if (voteInput && voteInput.length == 2) {
+    if (voteInput && voteInput.length >= 2) {
       const result = partyList.find((party) => {
-        return party.code === voteInput;
+        return party.code === voteInput.slice(0, 2);
       });
 
       if (result) {
