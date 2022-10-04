@@ -15,9 +15,9 @@ export default class VSDatabase extends Dexie {
   constructor() {
     super('VSDatabase');
 
-    this.version(1).stores({
+    this.version(2).stores({
       configuration: '&name, value',
-      votes: '&id, code',
+      votes: '&id, code, electionId',
     });
   }
 }
@@ -49,4 +49,8 @@ export async function addVote(code: string, electionId: string) {
   };
 
   db.votes.add(payload);
+}
+
+export async function getVotes(electionId: string): Promise<IVote[]> {
+  return await db.votes.where('electionId').equals(electionId).toArray();
 }
