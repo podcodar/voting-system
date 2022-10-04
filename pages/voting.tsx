@@ -1,9 +1,8 @@
 import { useEffect } from 'react';
 import { useRouter } from 'next/router';
-import { Grid, Heading, Center, Flex } from '@chakra-ui/react';
+import { Grid, Center } from '@chakra-ui/react';
 
 import Display from '@packages/components/Display';
-import VotingInstructions from '@packages/components/VotingInstruction';
 import InputPanel from '@packages/components/InputPanel/InputPanel';
 import { useVotingContext } from '@packages/features/voting-context';
 
@@ -11,7 +10,7 @@ import type { NextPage } from 'next';
 
 const VotingPage: NextPage = () => {
   const router = useRouter();
-  const { loadParties, isVoting } = useVotingContext();
+  const { loadParties } = useVotingContext();
 
   useEffect(() => {
     const electionId = router.query.electionId;
@@ -21,29 +20,21 @@ const VotingPage: NextPage = () => {
   }, [loadParties, router]);
 
   return (
-    <Grid templateColumns="2fr 1fr" gap="3" h="100vh" p="10">
-      {isVoting ? <Display /> : <VotingEndBox />}
-      <Flex
-        h="100%"
-        direction="column"
+    <Center>
+      <Grid
+        templateColumns="2fr 1fr"
+        gap="3"
+        h="100vh"
+        p="10"
         alignItems="center"
-        justifyContent="center"
-        backgroundColor="#D9D9D9"
+        maxW="1980px"
+        maxH="900px"
       >
-        <VotingInstructions />
+        <Display />
         <InputPanel />
-      </Flex>
-    </Grid>
-  );
-};
-
-function VotingEndBox() {
-  const { endMessage } = useVotingContext();
-  return (
-    <Center w="100%" h="100%">
-      <Heading>{endMessage}</Heading>
+      </Grid>
     </Center>
   );
-}
+};
 
 export default VotingPage;
