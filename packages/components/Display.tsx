@@ -32,6 +32,7 @@ function VotingEndBox({ endMessage }: IVotingEndBox) {
     <Center
       h="100%"
       w="100%"
+      flex="1"
       justifyContent="center"
       alignItems="center"
       flexDir="column"
