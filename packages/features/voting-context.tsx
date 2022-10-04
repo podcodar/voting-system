@@ -13,6 +13,7 @@ import {
   Party,
 } from '@packages/entities/notion';
 import { electionsApi } from '@packages/repository/api';
+import { addVote } from '@packages/repository/indexedDb';
 
 interface IVotingCtx {
   parties: Party[];
@@ -65,8 +66,9 @@ function VotingCtxProvider({ children }: ChildrenProps) {
     defaultInitialState.parties,
   );
 
-  const loadParties = useCallback(async (pageId: string) => {
-    const res = await electionsApi.getElectionPage(pageId);
+  const loadParties = useCallback(async (electionId: string) => {
+    setCurrentElectionId(electionId);
+    const res = await electionsApi.getElectionPage(electionId);
     if (res) {
       setPartyList(res.results);
     }
@@ -102,6 +104,7 @@ function VotingCtxProvider({ children }: ChildrenProps) {
   // Voting related
   const [voteInput, setVoteInput] = useState('');
   const [nullVote, setNullVote] = useState<boolean>(false);
+  const [currentElectionId, setCurrentElectionId] = useState<string>('');
   const [isVoting, setIsVoting] = useState(true);
   const [selectedParty, setSelectedParty] = useState<Party>();
   const [endMessage, setEndMessage] = useState('FIM');
@@ -140,21 +143,32 @@ function VotingCtxProvider({ children }: ChildrenProps) {
 
   const blankHandler = useCallback(() => {
     if (isBlankSelected) return;
-    else if (voteInput.length === 0) return setBlankConfirm(true);
-  }, [isBlankSelected, voteInput]);
+    else if (voteInput.length === 0) {
+      addVote('branco', currentElectionId);
+      return setBlankConfirm(true);
+    }
+  }, [currentElectionId, isBlankSelected, voteInput.length]);
 
   const nullHandler = useCallback(() => {
     handleVote('Nulo');
-  }, []);
+    addVote('nulo', currentElectionId);
+  }, [currentElectionId]);
 
   const confirmHandler = useCallback(() => {
     if (isBlankSelected) return handleVote('Branco');
     if (voteInput === secretCode) return handleVotingEnd();
-    if (selectedParty && selectedParty.name)
+    if (selectedParty && selectedParty.name) {
+      addVote(selectedParty.code, currentElectionId);
       return handleVote(selectedParty.name);
-
+    }
     if (voteInput.length >= 2) nullHandler();
-  }, [voteInput, selectedParty, isBlankSelected, nullHandler]);
+  }, [
+    isBlankSelected,
+    voteInput,
+    selectedParty,
+    nullHandler,
+    currentElectionId,
+  ]);
 
   const clearHandler = useCallback(() => {
     setVoteInput('');

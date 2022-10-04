@@ -3,8 +3,8 @@ export interface IConfig {
   value: string;
 }
 
-export interface IVotes {
-  id: number;
-  code: number;
+export interface IVote {
+  id: string;
+  code: string;
   electionId: string;
 }
