@@ -7,7 +7,7 @@ import PartyInfo from './PartyInfo';
 import CandidatePhotos from './CandidatePhotos';
 
 export default function VotingDisplay() {
-  const { selectedParty, nullVote, isBlackSelected } = useVotingContext();
+  const { selectedParty, nullVote, isBlankSelected } = useVotingContext();
 
   const candidate = selectedParty?.members.candidate;
   const vice = selectedParty?.members.viceCandidate;
@@ -28,7 +28,7 @@ export default function VotingDisplay() {
         />
       </Flex>
       <Flex flexDir="column" gap="1rem">
-        {nullVote || isBlackSelected ? (
+        {nullVote || isBlankSelected ? (
           <NullBlankBox />
         ) : (
           <PartyInfo
@@ -69,7 +69,7 @@ function VoteInstructions() {
 }
 
 function NullBlankBox() {
-  const { isBlackSelected } = useVotingContext();
+  const { isBlankSelected } = useVotingContext();
   return (
     <Center>
       <Text
@@ -79,7 +79,7 @@ function NullBlankBox() {
           fontWeight: '700',
         }}
       >
-        {`VOTO ${!isBlackSelected ? 'NULO' : 'EM BRANCO'}`}
+        {`VOTO ${!isBlankSelected ? 'NULO' : 'EM BRANCO'}`}
       </Text>
     </Center>
   );

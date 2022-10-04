@@ -11,14 +11,14 @@ interface Props {
 
 export const NumericButton = (props: Props) => {
   const { children, clickHandler } = props;
-  const { isBlackSelected } = useVotingContext();
+  const { isBlankSelected } = useVotingContext();
   const colStart = children === '0' ? 2 : undefined;
   return (
     <GridItem
       w="100%"
       h="100%"
       colStart={colStart}
-      pointerEvents={`${isBlackSelected ? 'none' : 'all'}`}
+      pointerEvents={`${isBlankSelected ? 'none' : 'all'}`}
     >
       <BaseButton
         clickHandler={clickHandler}
