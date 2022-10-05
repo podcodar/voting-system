@@ -12,7 +12,7 @@ export interface GetElectionPageResponse {
   results: PartyData[];
 }
 
-interface AvailableElections {
+export interface AvailableElections {
   electionId: string;
   electionName: string;
 }
@@ -58,7 +58,7 @@ export interface ResultElection {
   looserParty: PartySummary;
 }
 
-interface PartySummary {
+export interface PartySummary {
   name: string;
   members: string[];
   votes: string;
