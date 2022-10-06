@@ -7,6 +7,7 @@ import {
   useEffect,
 } from 'react';
 
+import { PlayFim } from '@packages/components/AudioTags';
 import { ChildrenProps } from '@packages/utils/react';
 import {
   GetAvailableElectionsResponse,
@@ -113,9 +114,9 @@ function VotingCtxProvider({ children }: ChildrenProps) {
   const secretCode = '12345';
 
   useEffect(() => {
-    if (voteInput && voteInput.length == 2) {
+    if (voteInput && voteInput.length >= 2) {
       const result = partyList.find((party) => {
-        return party.code === voteInput;
+        return party.code === voteInput.slice(0, 2);
       });
 
       if (result) {
@@ -178,6 +179,7 @@ function VotingCtxProvider({ children }: ChildrenProps) {
 
   function handleVote(message: string) {
     // TODO update result
+    PlayFim();
     setIsVoting(false);
     setEndMessage('Você Votou em ' + message);
     setVoteInput('');
