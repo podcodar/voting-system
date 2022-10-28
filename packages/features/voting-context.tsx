@@ -12,8 +12,6 @@ import {
   AvailableElections,
   GetAvailableElectionsResponse,
   Party,
-  PartySummary,
-  ResultElection,
 } from '@packages/entities/notion';
 import { electionsApi } from '@packages/repository/api';
 import {
@@ -21,7 +19,6 @@ import {
   getConfiguration,
   getVotes,
 } from '@packages/repository/indexedDb';
-import { IVote } from '@packages/entities/indexedDb';
 
 interface IVotingCtx {
   parties: Party[];
@@ -162,9 +159,9 @@ function VotingCtxProvider({ children }: ChildrenProps) {
     addVote('nulo', currentElectionId);
   }, [currentElectionId]);
 
-  const confirmHandler = useCallback(() => {
+  const confirmHandler = useCallback(async () => {
     if (isBlankSelected) return handleVote('Branco');
-    if (voteInput === secretCode) return handleVotingEnd();
+    if (voteInput === secretCode) return await handleVotingEnd();
     if (selectedParty && selectedParty.name) {
       addVote(selectedParty.code, currentElectionId);
       return handleVote(selectedParty.name);
@@ -173,6 +170,7 @@ function VotingCtxProvider({ children }: ChildrenProps) {
   }, [
     isBlankSelected,
     voteInput,
+    handleVotingEnd,
     selectedParty,
     nullHandler,
     currentElectionId,
@@ -196,98 +194,20 @@ function VotingCtxProvider({ children }: ChildrenProps) {
     }, 1000);
   }
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   async function handleVotingEnd() {
     // TODO save result to db
     setEndMessage('Eleição Encerrada');
     setIsVoting(false);
-    await generateResult();
+    await postResult();
   }
 
-  interface ICountVotesElection {
-    [key: string]: number;
-  }
-
-  async function CountVotes(votes: IVote[]) {
-    const countVotes: ICountVotesElection = {};
-
-    for (const vote of votes) {
-      const currentResult = countVotes[vote.code];
-      if (!currentResult) {
-        countVotes[vote.code] = 1;
-        continue;
-      }
-
-      countVotes[vote.code] = currentResult + 1;
-    }
-
-    return countVotes;
-  }
-
-  async function createObjectPostResult(
-    orderResult: [string, number][],
-    election: AvailableElections,
-  ) {
-    const winnerParty: PartySummary = {
-      name: '',
-      members: [],
-      votes: '0',
-    };
-
-    const loserParty: PartySummary = {
-      name: '',
-      members: [],
-      votes: '0',
-    };
-
-    let positionResult: number = 0;
-    for (let index = 0; index < orderResult.length; index++) {
-      if (
-        orderResult[index][0] === 'nulo' ||
-        orderResult[index][0] === 'branco'
-      ) {
-        continue;
-      }
-
-      const party: Party | undefined = partyList.find((party) => {
-        return party.code === orderResult[index][0].toString();
-      });
-
-      if (!party) {
-        return;
-      }
-
-      const members: Array<string> = [];
-
-      members.push(party.members.candidate.name);
-      members.push(party.members.viceCandidate.name);
-
-      if (positionResult === 0) {
-        winnerParty.name = party.name;
-        winnerParty.members = members;
-        winnerParty.votes = orderResult[index][1].toString();
-      }
-
-      if (positionResult === 1) {
-        loserParty.name = party.name;
-        loserParty.members = members;
-        loserParty.votes = orderResult[index][1].toString();
-      }
-      positionResult = positionResult + 1;
-    }
-
-    const resultElection: ResultElection = {
-      electionName: election?.electionName,
-      winnerParty: winnerParty,
-      looserParty: loserParty,
-    };
-
-    return resultElection;
-  }
-
-  async function generateResult() {
+  async function postResult() {
     const votes = await getVotes(currentElectionId);
+    const configDatabase = await getConfiguration();
 
-    const countVotes: ICountVotesElection = await CountVotes(votes);
+    const votedSet = new Set();
+    const voteCounts: any = {};
 
     const election: AvailableElections | undefined =
       availableElections.results?.find((election) => {
@@ -298,21 +218,50 @@ function VotingCtxProvider({ children }: ChildrenProps) {
       return;
     }
 
-    const orderResult = Object.entries(countVotes).sort((a, b) => b[1] - a[1]);
+    votes.forEach((vote) => {
+      const code = vote.code;
+      if (!isNaN(parseFloat(code))) {
+        if (votedSet.has(code)) {
+          voteCounts[code] += 1;
+        } else {
+          votedSet.add(code);
+          voteCounts[code] = 1;
+        }
+      }
+    });
 
-    const resultElection: ResultElection | undefined =
-      await createObjectPostResult(orderResult, election);
+    const [[winnerCode, winnerVotes], [loserCode, loserVotes]]: any =
+      Object.entries(voteCounts).sort((a: any, b: any) => b[1] - a[1]);
 
-    if (!resultElection) {
-      return;
-    }
-
-    const configDatabase = await getConfiguration();
+    const [{ members: winnerMembers, name: winnerName }] = partyList.filter(
+      (party) => party.code === winnerCode,
+    );
+    const [{ members: loserMembers, name: loserName }] = partyList.filter(
+      (party) => party.code === loserCode,
+    );
 
     electionsApi.postResultElection(
       configDatabase.resultsDatabaseId,
       configDatabase.electionDatabaseId,
-      resultElection,
+      {
+        electionName: election.electionName,
+        winnerParty: {
+          name: winnerName,
+          members: [
+            winnerMembers.candidate.name,
+            winnerMembers.viceCandidate.name,
+          ],
+          votes: winnerVotes as string,
+        },
+        looserParty: {
+          name: loserName,
+          members: [
+            loserMembers.candidate.name,
+            loserMembers.viceCandidate.name,
+          ],
+          votes: loserVotes as string,
+        },
+      },
     );
   }
 
