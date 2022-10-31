@@ -242,7 +242,7 @@ function VotingCtxProvider({ children }: ChildrenProps) {
 
     electionsApi.postResultElection(
       configDatabase.resultsDatabaseId,
-      configDatabase.electionDatabaseId,
+      currentElectionId,
       {
         electionName: election.electionName,
         winnerParty: {
