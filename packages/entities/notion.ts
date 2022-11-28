@@ -63,3 +63,14 @@ export interface PartySummary {
   members: string[];
   votes: string;
 }
+
+export interface ResultSummary {
+  members: PartyMembers;
+  name: string;
+  votes: string;
+}
+
+export interface ResultToNotion {
+  winner: ResultSummary;
+  loser: ResultSummary;
+}

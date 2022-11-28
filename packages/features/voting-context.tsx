@@ -12,6 +12,7 @@ import {
   AvailableElections,
   GetAvailableElectionsResponse,
   Party,
+  ResultToNotion,
 } from '@packages/entities/notion';
 import { electionsApi } from '@packages/repository/api';
 import {
@@ -194,31 +195,11 @@ function VotingCtxProvider({ children }: ChildrenProps) {
     }, 1000);
   }
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  async function handleVotingEnd() {
-    // TODO save result to db
-    setEndMessage('Eleição Encerrada');
-    setIsVoting(false);
-    await postResult();
-  }
-
-  async function postResult() {
-    const votes = await getVotes(currentElectionId);
-    const configDatabase = await getConfiguration();
-
+  function countingVotes(votes: any) {
     const votedSet = new Set();
-    const voteCounts: any = {};
+    const voteCounts: { [key: string]: number } = {};
 
-    const election: AvailableElections | undefined =
-      availableElections.results?.find((election) => {
-        return election.electionId === currentElectionId;
-      });
-
-    if (!election) {
-      return;
-    }
-
-    votes.forEach((vote) => {
+    votes.forEach((vote: any) => {
       const code = vote.code;
       if (!isNaN(parseFloat(code))) {
         if (votedSet.has(code)) {
@@ -230,6 +211,18 @@ function VotingCtxProvider({ children }: ChildrenProps) {
       }
     });
 
+    return voteCounts;
+  }
+
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  async function handleVotingEnd() {
+    // TODO save result to db
+    setEndMessage('Eleição Encerrada');
+    setIsVoting(false);
+    await postResult();
+  }
+
+  function mapToNotion(voteCounts: { [key: string]: number }): ResultToNotion {
     const [[winnerCode, winnerVotes], [loserCode, loserVotes]]: any =
       Object.entries(voteCounts).sort((a: any, b: any) => b[1] - a[1]);
 
@@ -240,26 +233,59 @@ function VotingCtxProvider({ children }: ChildrenProps) {
       (party) => party.code === loserCode,
     );
 
+    const results: ResultToNotion = {
+      winner: {
+        members: winnerMembers,
+        name: winnerName,
+        votes: winnerVotes,
+      },
+      loser: {
+        members: loserMembers,
+        name: loserName,
+        votes: loserVotes,
+      },
+    };
+
+    return results;
+  }
+
+  async function postResult() {
+    const votes = await getVotes(currentElectionId);
+    const configDatabase = await getConfiguration();
+
+    const election: AvailableElections | undefined =
+      availableElections.results?.find((election) => {
+        return election.electionId === currentElectionId;
+      });
+
+    if (!election) {
+      return;
+    }
+
+    const voteCounts: { [key: string]: number } = countingVotes(votes);
+
+    const resultMapToNotion: ResultToNotion = mapToNotion(voteCounts);
+
     electionsApi.postResultElection(
       configDatabase.resultsDatabaseId,
       currentElectionId,
       {
         electionName: election.electionName,
         winnerParty: {
-          name: winnerName,
+          name: resultMapToNotion.winner.name,
           members: [
-            winnerMembers.candidate.name,
-            winnerMembers.viceCandidate.name,
+            resultMapToNotion.winner.members.candidate.name,
+            resultMapToNotion.winner.members.viceCandidate.name,
           ],
-          votes: winnerVotes as string,
+          votes: resultMapToNotion.winner.votes as string,
         },
         looserParty: {
-          name: loserName,
+          name: resultMapToNotion.loser.name,
           members: [
-            loserMembers.candidate.name,
-            loserMembers.viceCandidate.name,
+            resultMapToNotion.loser.members.candidate.name,
+            resultMapToNotion.loser.members.viceCandidate.name,
           ],
-          votes: loserVotes as string,
+          votes: resultMapToNotion.loser.votes as string,
         },
       },
     );
