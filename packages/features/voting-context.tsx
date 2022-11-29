@@ -216,7 +216,6 @@ function VotingCtxProvider({ children }: ChildrenProps) {
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   async function handleVotingEnd() {
-    // TODO save result to db
     setEndMessage('Eleição Encerrada');
     setIsVoting(false);
     await postResult();
