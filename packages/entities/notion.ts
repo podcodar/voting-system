@@ -17,8 +17,8 @@ export interface AvailableElections {
   electionName: string;
 }
 
-export interface GetElectionPageResponse {
-  results: PartyData[];
+export interface GetResultElectionResponse {
+  results: ResultElectionData[];
 }
 
 export interface CreateElectionResultResponse {
@@ -35,6 +35,14 @@ export interface PartyData {
   name: string;
   slug: string;
   members: PartyMembers;
+}
+
+export interface ResultElectionData {
+  candidate: string;
+  vice: string;
+  partido: string;
+  porcentagem: string;
+  votos: string;
 }
 
 interface PartyMembers {
@@ -64,13 +72,7 @@ export interface PartySummary {
   votes: string;
 }
 
-export interface ResultSummary {
-  members: PartyMembers;
-  name: string;
-  votes: string;
-}
-
-export interface ResultToNotion {
-  winner: ResultSummary;
-  loser: ResultSummary;
+export enum TypeData {
+  Result,
+  Election,
 }

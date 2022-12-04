@@ -9,6 +9,7 @@ import {
   extractPagesFromQuery,
   extractCandidateImages,
   extractCandidateDatabaseId,
+  extractResultElection,
 } from '@packages/notion/utils';
 import { createResultPageFromTemplate } from '@packages/notion/templates';
 
@@ -37,12 +38,24 @@ export async function getAvailableElections(
   };
 }
 
-export const getElectionPage = async (pageId: string) => {
+export const _getPage = async (pageId: string) => {
   const { results } = await notion.blocks.children.list({ block_id: pageId });
+  return results;
+};
+
+export const getElectionPage = async (pageId: string) => {
+  const results = await _getPage(pageId);
   const candidateDatabaseId = extractCandidateDatabaseId(results);
   const candidateData = await _getPartyData(candidateDatabaseId);
 
   return candidateData;
+};
+
+export const getResultElection = async (pageId: string) => {
+  const results = await _getPage(pageId);
+  const resultElection = extractResultElection(results);
+
+  return resultElection;
 };
 
 export const postElectionResult = async (pageConfig: CreateResultPage) => {
