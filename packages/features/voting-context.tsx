@@ -160,6 +160,84 @@ function VotingCtxProvider({ children }: ChildrenProps) {
     addVote('nulo', currentElectionId);
   }, [currentElectionId]);
 
+  const mapToNotion = useCallback(
+    (voteCounts: { [key: string]: number }): ResultToNotion => {
+      const [[winnerCode, winnerVotes], [loserCode, loserVotes]]: any =
+        Object.entries(voteCounts).sort((a: any, b: any) => b[1] - a[1]);
+
+      const [{ members: winnerMembers, name: winnerName }] = partyList.filter(
+        (party) => party.code === winnerCode,
+      );
+      const [{ members: loserMembers, name: loserName }] = partyList.filter(
+        (party) => party.code === loserCode,
+      );
+
+      const results: ResultToNotion = {
+        winner: {
+          members: winnerMembers,
+          name: winnerName,
+          votes: winnerVotes,
+        },
+        loser: {
+          members: loserMembers,
+          name: loserName,
+          votes: loserVotes,
+        },
+      };
+
+      return results;
+    },
+    [partyList],
+  );
+
+  const postResult = useCallback(async () => {
+    const votes = await getVotes(currentElectionId);
+    const configDatabase = await getConfiguration();
+
+    const election: AvailableElections | undefined =
+      availableElections.results?.find((election) => {
+        return election.electionId === currentElectionId;
+      });
+
+    if (!election) {
+      return;
+    }
+
+    const voteCounts: { [key: string]: number } = countingVotes(votes);
+
+    const resultMapToNotion: ResultToNotion = mapToNotion(voteCounts);
+
+    electionsApi.postResultElection(
+      configDatabase.resultsDatabaseId,
+      currentElectionId,
+      {
+        electionName: election.electionName,
+        winnerParty: {
+          name: resultMapToNotion.winner.name,
+          members: [
+            resultMapToNotion.winner.members.candidate.name,
+            resultMapToNotion.winner.members.viceCandidate.name,
+          ],
+          votes: resultMapToNotion.winner.votes as string,
+        },
+        looserParty: {
+          name: resultMapToNotion.loser.name,
+          members: [
+            resultMapToNotion.loser.members.candidate.name,
+            resultMapToNotion.loser.members.viceCandidate.name,
+          ],
+          votes: resultMapToNotion.loser.votes as string,
+        },
+      },
+    );
+  }, [availableElections.results, currentElectionId, mapToNotion]);
+
+  const handleVotingEnd = useCallback(async () => {
+    setEndMessage('Eleição Encerrada');
+    setIsVoting(false);
+    await postResult();
+  }, [postResult]);
+
   const confirmHandler = useCallback(async () => {
     if (isBlankSelected) return handleVote('Branco');
     if (voteInput === secretCode) return await handleVotingEnd();
@@ -212,82 +290,6 @@ function VotingCtxProvider({ children }: ChildrenProps) {
     });
 
     return voteCounts;
-  }
-
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  async function handleVotingEnd() {
-    setEndMessage('Eleição Encerrada');
-    setIsVoting(false);
-    await postResult();
-  }
-
-  function mapToNotion(voteCounts: { [key: string]: number }): ResultToNotion {
-    const [[winnerCode, winnerVotes], [loserCode, loserVotes]]: any =
-      Object.entries(voteCounts).sort((a: any, b: any) => b[1] - a[1]);
-
-    const [{ members: winnerMembers, name: winnerName }] = partyList.filter(
-      (party) => party.code === winnerCode,
-    );
-    const [{ members: loserMembers, name: loserName }] = partyList.filter(
-      (party) => party.code === loserCode,
-    );
-
-    const results: ResultToNotion = {
-      winner: {
-        members: winnerMembers,
-        name: winnerName,
-        votes: winnerVotes,
-      },
-      loser: {
-        members: loserMembers,
-        name: loserName,
-        votes: loserVotes,
-      },
-    };
-
-    return results;
-  }
-
-  async function postResult() {
-    const votes = await getVotes(currentElectionId);
-    const configDatabase = await getConfiguration();
-
-    const election: AvailableElections | undefined =
-      availableElections.results?.find((election) => {
-        return election.electionId === currentElectionId;
-      });
-
-    if (!election) {
-      return;
-    }
-
-    const voteCounts: { [key: string]: number } = countingVotes(votes);
-
-    const resultMapToNotion: ResultToNotion = mapToNotion(voteCounts);
-
-    electionsApi.postResultElection(
-      configDatabase.resultsDatabaseId,
-      currentElectionId,
-      {
-        electionName: election.electionName,
-        winnerParty: {
-          name: resultMapToNotion.winner.name,
-          members: [
-            resultMapToNotion.winner.members.candidate.name,
-            resultMapToNotion.winner.members.viceCandidate.name,
-          ],
-          votes: resultMapToNotion.winner.votes as string,
-        },
-        looserParty: {
-          name: resultMapToNotion.loser.name,
-          members: [
-            resultMapToNotion.loser.members.candidate.name,
-            resultMapToNotion.loser.members.viceCandidate.name,
-          ],
-          votes: resultMapToNotion.loser.votes as string,
-        },
-      },
-    );
   }
 
   // End of Voting related
