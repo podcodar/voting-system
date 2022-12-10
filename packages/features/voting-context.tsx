@@ -10,11 +10,17 @@ import {
 import { PlayFim } from '@packages/components/AudioTags';
 import { ChildrenProps } from '@packages/utils/react';
 import {
+  AvailableElections,
   GetAvailableElectionsResponse,
   Party,
+  ResultToNotion,
 } from '@packages/entities/notion';
 import { electionsApi } from '@packages/repository/api';
-import { addVote } from '@packages/repository/indexedDb';
+import {
+  addVote,
+  getConfiguration,
+  getVotes,
+} from '@packages/repository/indexedDb';
 
 interface IVotingCtx {
   parties: Party[];
@@ -155,9 +161,87 @@ function VotingCtxProvider({ children }: ChildrenProps) {
     addVote('nulo', currentElectionId);
   }, [currentElectionId]);
 
-  const confirmHandler = useCallback(() => {
+  const mapToNotion = useCallback(
+    (voteCounts: { [key: string]: number }): ResultToNotion => {
+      const [[winnerCode, winnerVotes], [loserCode, loserVotes]]: any =
+        Object.entries(voteCounts).sort((a: any, b: any) => b[1] - a[1]);
+
+      const [{ members: winnerMembers, name: winnerName }] = partyList.filter(
+        (party) => party.code === winnerCode,
+      );
+      const [{ members: loserMembers, name: loserName }] = partyList.filter(
+        (party) => party.code === loserCode,
+      );
+
+      const results: ResultToNotion = {
+        winner: {
+          members: winnerMembers,
+          name: winnerName,
+          votes: winnerVotes,
+        },
+        loser: {
+          members: loserMembers,
+          name: loserName,
+          votes: loserVotes,
+        },
+      };
+
+      return results;
+    },
+    [partyList],
+  );
+
+  const postResult = useCallback(async () => {
+    const votes = await getVotes(currentElectionId);
+    const configDatabase = await getConfiguration();
+
+    const election: AvailableElections | undefined =
+      availableElections.results?.find((election) => {
+        return election.electionId === currentElectionId;
+      });
+
+    if (!election) {
+      return;
+    }
+
+    const voteCounts: { [key: string]: number } = countingVotes(votes);
+
+    const resultMapToNotion: ResultToNotion = mapToNotion(voteCounts);
+
+    electionsApi.postResultElection(
+      configDatabase.resultsDatabaseId,
+      currentElectionId,
+      {
+        electionName: election.electionName,
+        winnerParty: {
+          name: resultMapToNotion.winner.name,
+          members: [
+            resultMapToNotion.winner.members.candidate.name,
+            resultMapToNotion.winner.members.viceCandidate.name,
+          ],
+          votes: resultMapToNotion.winner.votes as string,
+        },
+        looserParty: {
+          name: resultMapToNotion.loser.name,
+          members: [
+            resultMapToNotion.loser.members.candidate.name,
+            resultMapToNotion.loser.members.viceCandidate.name,
+          ],
+          votes: resultMapToNotion.loser.votes as string,
+        },
+      },
+    );
+  }, [availableElections.results, currentElectionId, mapToNotion]);
+
+  const handleVotingEnd = useCallback(async () => {
+    setEndMessage('Eleição Encerrada');
+    setIsVoting(false);
+    await postResult();
+  }, [postResult]);
+
+  const confirmHandler = useCallback(async () => {
     if (isBlankSelected) return handleVote('Branco');
-    if (voteInput === secretCode) return handleVotingEnd();
+    if (voteInput === secretCode) return await handleVotingEnd();
     if (selectedParty && selectedParty.name) {
       addVote(selectedParty.code, currentElectionId);
       return handleVote(selectedParty.name);
@@ -166,6 +250,7 @@ function VotingCtxProvider({ children }: ChildrenProps) {
   }, [
     isBlankSelected,
     voteInput,
+    handleVotingEnd,
     selectedParty,
     nullHandler,
     currentElectionId,
@@ -190,10 +275,23 @@ function VotingCtxProvider({ children }: ChildrenProps) {
     }, 1000);
   }
 
-  function handleVotingEnd() {
-    // TODO save result to db
-    setEndMessage('Eleição Encerrada');
-    setIsVoting(false);
+  function countingVotes(votes: any) {
+    const votedSet = new Set();
+    const voteCounts: { [key: string]: number } = {};
+
+    votes.forEach((vote: any) => {
+      const code = vote.code;
+      if (!isNaN(parseFloat(code))) {
+        if (votedSet.has(code)) {
+          voteCounts[code] += 1;
+        } else {
+          votedSet.add(code);
+          voteCounts[code] = 1;
+        }
+      }
+    });
+
+    return voteCounts;
   }
 
   // End of Voting related

@@ -12,7 +12,7 @@ export interface GetElectionPageResponse {
   results: PartyData[];
 }
 
-interface AvailableElections {
+export interface AvailableElections {
   electionId: string;
   electionName: string;
 }
@@ -58,8 +58,19 @@ export interface ResultElection {
   looserParty: PartySummary;
 }
 
-interface PartySummary {
+export interface PartySummary {
   name: string;
   members: string[];
   votes: string;
+}
+
+export interface ResultSummary {
+  members: PartyMembers;
+  name: string;
+  votes: string;
+}
+
+export interface ResultToNotion {
+  winner: ResultSummary;
+  loser: ResultSummary;
 }
