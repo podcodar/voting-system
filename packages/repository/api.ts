@@ -1,6 +1,8 @@
 import {
+  CreateElectionResultResponse,
   GetAvailableElectionsResponse,
   GetElectionsPageResponse,
+  GetResultElectionResponse,
   ResultElection,
 } from '@packages/entities/notion';
 
@@ -13,11 +15,21 @@ const ELECTION_PAGE_URL = (pageId: string) =>
 const RESULT_ELECTION_URL = (databaseId: string, electionId: string) =>
   `/api/elections/result?databaseId=${databaseId}&electionId=${electionId}`;
 
+const RESULT_ELECTION_PAGE_URL = (pageId: string, electionPageId: string) =>
+  `/api/elections/resultElection?pageId=${pageId}&electionPageId=${electionPageId}`;
+
 export const electionsApi = {
   getAvailableElections: async (databaseId: string) =>
     fetchData<GetAvailableElectionsResponse>(ELECTIONS_URL(databaseId), {
       method: 'GET',
     }),
+  getResultElection: async (pageId: string, electionPageId: string) =>
+    fetchData<GetResultElectionResponse>(
+      RESULT_ELECTION_PAGE_URL(pageId, electionPageId),
+      {
+        method: 'GET',
+      },
+    ),
   getElectionPage: async (pageId: string) =>
     fetchData<GetElectionsPageResponse>(ELECTION_PAGE_URL(pageId), {
       method: 'GET',
@@ -27,10 +39,13 @@ export const electionsApi = {
     electionId: string,
     resultElection: ResultElection,
   ) =>
-    fetchData<ResultElection>(RESULT_ELECTION_URL(databaseId, electionId), {
-      method: 'POST',
-      body: JSON.stringify(resultElection),
-    }),
+    fetchData<CreateElectionResultResponse>(
+      RESULT_ELECTION_URL(databaseId, electionId),
+      {
+        method: 'POST',
+        body: JSON.stringify(resultElection),
+      },
+    ),
 };
 
 async function fetchData<T>(

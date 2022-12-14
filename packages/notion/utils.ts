@@ -1,5 +1,6 @@
 import { ListBlockChildrenResponse } from '@notionhq/client/build/src/api-endpoints';
 
+import { ResultElectionData } from '@packages/entities/notion';
 import {
   Title,
   LooseObject,
@@ -7,6 +8,8 @@ import {
   RichText,
   Select,
 } from '@packages/notion/sdk';
+
+import { getElectionPage } from './client';
 
 export function extractCandidateDatabaseId(
   blockList: ListBlockChildrenResponse['results'],
@@ -94,4 +97,55 @@ function _selectHandler(propertyValue: Select): string {
     return propertyValue.select.name;
   }
   return '';
+}
+
+export function extractResultElection(
+  blockList: ListBlockChildrenResponse['results'],
+  electionPageId: string,
+): Promise<ResultElectionData[]> {
+  const blocks = blockList.filter(
+    (block) => 'type' in block && block.type === 'heading_1',
+  );
+
+  const partiesResult: string[] = [];
+  const votes: number[] = [];
+
+  for (let block of blocks) {
+    if ('type' in block && block?.type === 'heading_1') {
+      const result = block?.heading_1?.rich_text[0].plain_text.split(' - ');
+      partiesResult.push(result[1]);
+      votes.push(Number(result[2].split(' ')[0]));
+    }
+  }
+
+  return _mapToResultPage(partiesResult, votes, electionPageId);
+}
+
+async function _mapToResultPage(
+  partiesResult: string[],
+  votes: number[],
+  electionPageId: string,
+): Promise<ResultElectionData[]> {
+  const resultParty = await getElectionPage(electionPageId);
+  const results: ResultElectionData[] = [];
+  const totalVotes = votes.reduce((a, b) => a + b, 0);
+  const percentage: number[] = [];
+
+  votes.map((x) => {
+    percentage.push(((x * 100) / totalVotes).toFixed(2));
+  });
+
+  partiesResult.map(function (value, index) {
+    const currentParty = resultParty.filter((party) => party.name === value);
+
+    results.push({
+      candidate: currentParty[0].members.candidate.name,
+      partido: currentParty[0].name,
+      porcentagem: percentage[index].toString() + ' %',
+      vice: currentParty[0].members.viceCandidate.name,
+      votos: votes[index].toString(),
+    });
+  });
+
+  return results;
 }

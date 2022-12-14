@@ -1,6 +1,6 @@
 import { Flex, Box, Avatar, Text } from '@chakra-ui/react';
 
-interface Electionesult {
+interface ElectionResult {
   candidate: string;
   vice: string;
   party: string;
@@ -14,7 +14,7 @@ function ResultCard({
   party,
   percentagem,
   votos,
-}: Electionesult) {
+}: ElectionResult) {
   return (
     <Flex flexDirection="row" w="60vw">
       <Box w="40vw">

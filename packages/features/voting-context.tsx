@@ -6,6 +6,7 @@ import {
   useCallback,
   useEffect,
 } from 'react';
+import Router from 'next/router';
 
 import { PlayFim } from '@packages/components/AudioTags';
 import { ChildrenProps } from '@packages/utils/react';
@@ -13,6 +14,7 @@ import {
   AvailableElections,
   GetAvailableElectionsResponse,
   Party,
+  ResultElectionData,
   ResultToNotion,
 } from '@packages/entities/notion';
 import { electionsApi } from '@packages/repository/api';
@@ -31,6 +33,7 @@ interface IVotingCtx {
   endMessage: string;
   nullVote: boolean;
   isBlankSelected: boolean;
+  dataPageResult: ResultElectionData[];
   incrementVote: () => void;
   blankHandler: () => void;
   clearHandler: () => void;
@@ -49,6 +52,7 @@ const defaultInitialState = {
   endMessage: '',
   nullVote: false,
   isBlankSelected: false,
+  dataPageResult: [],
   setIsVoting: () => {},
   incrementVote: () => {},
   blankHandler: () => {},
@@ -116,7 +120,9 @@ function VotingCtxProvider({ children }: ChildrenProps) {
   const [selectedParty, setSelectedParty] = useState<Party>();
   const [endMessage, setEndMessage] = useState('FIM');
   const [isBlankSelected, setBlankConfirm] = useState(false);
-
+  const [dataPageResult, setDataPageResult] = useState<ResultElectionData[]>(
+    defaultInitialState.dataPageResult,
+  );
   const secretCode = '12345';
 
   useEffect(() => {
@@ -201,14 +207,14 @@ function VotingCtxProvider({ children }: ChildrenProps) {
       });
 
     if (!election) {
-      return;
+      return '';
     }
 
     const voteCounts: { [key: string]: number } = countingVotes(votes);
 
     const resultMapToNotion: ResultToNotion = mapToNotion(voteCounts);
 
-    electionsApi.postResultElection(
+    const response = await electionsApi.postResultElection(
       configDatabase.resultsDatabaseId,
       currentElectionId,
       {
@@ -231,13 +237,26 @@ function VotingCtxProvider({ children }: ChildrenProps) {
         },
       },
     );
+
+    if (response?.id !== undefined) {
+      return response.id;
+    } else {
+      return '';
+    }
   }, [availableElections.results, currentElectionId, mapToNotion]);
 
   const handleVotingEnd = useCallback(async () => {
     setEndMessage('Eleição Encerrada');
     setIsVoting(false);
-    await postResult();
-  }, [postResult]);
+    const pageIdResult: string = await postResult();
+    const resultElectionPage = await electionsApi.getResultElection(
+      pageIdResult,
+      currentElectionId,
+    );
+    if (resultElectionPage === undefined) return;
+    setDataPageResult(resultElectionPage?.results);
+    Router.push(`/result`);
+  }, [currentElectionId, postResult]);
 
   const confirmHandler = useCallback(async () => {
     if (isBlankSelected) return handleVote('Branco');
@@ -306,6 +325,7 @@ function VotingCtxProvider({ children }: ChildrenProps) {
       endMessage,
       nullVote,
       isBlankSelected,
+      dataPageResult,
       handleVote: handleVote,
       setIsVoting: setIsVoting,
       blankHandler: blankHandler,
@@ -325,6 +345,7 @@ function VotingCtxProvider({ children }: ChildrenProps) {
     endMessage,
     nullVote,
     isBlankSelected,
+    dataPageResult,
     setIsVoting,
     blankHandler,
     confirmHandler,
