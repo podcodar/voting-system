@@ -129,10 +129,11 @@ async function _mapToResultPage(
   const resultParty = await getElectionPage(electionPageId);
   const results: ResultElectionData[] = [];
   const totalVotes = votes.reduce((a, b) => a + b, 0);
-  const percentage: number[] = [];
+  const percentage: string[] = [];
 
   votes.map((x) => {
-    percentage.push(((x * 100) / totalVotes).toFixed(2));
+    const result: number = (x * 100) / totalVotes;
+    percentage.push(result.toFixed(2));
   });
 
   partiesResult.map(function (value, index) {
@@ -141,7 +142,7 @@ async function _mapToResultPage(
     results.push({
       candidate: currentParty[0].members.candidate.name,
       partido: currentParty[0].name,
-      porcentagem: percentage[index].toString() + ' %',
+      porcentagem: percentage[index] + ' %',
       vice: currentParty[0].members.viceCandidate.name,
       votos: votes[index].toString(),
     });
