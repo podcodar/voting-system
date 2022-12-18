@@ -137,13 +137,13 @@ async function _mapToResultPage(
   });
 
   partiesResult.map(function (value, index) {
-    const currentParty = resultParty.filter((party) => party.name === value);
+    const [currentParty] = resultParty.filter((party) => party.name === value);
 
     results.push({
-      candidate: currentParty[0].members.candidate.name,
-      partido: currentParty[0].name,
+      candidate: currentParty.members.candidate.name,
+      partido: currentParty.name,
       porcentagem: percentage[index] + ' %',
-      vice: currentParty[0].members.viceCandidate.name,
+      vice: currentParty.members.viceCandidate.name,
       votos: votes[index].toString(),
     });
   });
