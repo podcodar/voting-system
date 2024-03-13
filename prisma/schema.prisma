@@ -1,17 +1,56 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider = "prisma-client-js"
 }
 
 datasource db {
   provider = "postgresql"
-  url      = env("DATABASE_URL")
+  url      = "postgresql://test:test@localhost:5432/test"
 }
 
-// TODO(vzsoares): define models
+model Election {
+  id          String   @id @default(uuid())
+  name        String
+  electionDay DateTime
+
+  createdAt DateTime  @default(now())
+  deletedAt DateTime?
+
+  vote       Vote[]
+  candidates Candidate[]
+}
+
 model Candidate {
-  id        Int      @id
-  candidate String[]
+  id         String  @id @default(uuid())
+  name       String
+  electionId String
+  partieId   String?
+
+  createdAt DateTime  @default(now())
+  deletedAt DateTime?
+
+  vote     Vote[]
+  election Election? @relation(fields: [electionId], references: [id])
+  Partie   Partie?   @relation(fields: [partieId], references: [id])
+}
+
+model Partie {
+  id   String @id @default(uuid())
+  name String
+
+  createdAt DateTime  @default(now())
+  deletedAt DateTime?
+
+  candidates Candidate[]
+}
+
+model Vote {
+  id          String @id @default(uuid())
+  electionId  String
+  candidateId String
+
+  createdAt DateTime  @default(now())
+  deletedAt DateTime?
+
+  election  Election  @relation(fields: [electionId], references: [id])
+  candidate Candidate @relation(fields: [candidateId], references: [id])
 }
