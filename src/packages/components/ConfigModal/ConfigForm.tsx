@@ -1,10 +1,10 @@
-import { FormLabel, Input } from '@chakra-ui/react';
+import { FormLabel, Input } from "@chakra-ui/react";
 
 import {
   useConfigActions,
   useConfigStates,
-} from 'src/packages/features/config-context';
-import { IConfigForm } from 'src/packages/entities/config-modal';
+} from "src/packages/features/config-context";
+import { IConfigForm } from "src/packages/entities/config-modal";
 
 export default function ConfigForm({ initialRef }: IConfigForm) {
   const { onConfigChange } = useConfigActions();

@@ -1,23 +1,23 @@
-import Dexie, { Table } from 'dexie';
-import { v4 as uuid } from 'uuid';
+import Dexie, { Table } from "dexie";
+import { v4 as uuid } from "uuid";
 
-import { ConfigStates } from 'src/packages/features/config-context';
-import { IConfig, IVote } from 'src/packages/entities/indexedDb';
+import { ConfigStates } from "src/packages/features/config-context";
+import { IConfig, IVote } from "src/packages/entities/indexedDb";
 import {
   configContextToPersistence,
   configPersistenceToContext,
-} from 'src/packages/utils/transformers';
+} from "src/packages/utils/transformers";
 
 export default class VSDatabase extends Dexie {
   configuration!: Table<IConfig, string>;
   votes!: Table<IVote, string>;
 
   constructor() {
-    super('VSDatabase');
+    super("VSDatabase");
 
     this.version(2).stores({
-      configuration: '&name, value',
-      votes: '&id, code, electionId',
+      configuration: "&name, value",
+      votes: "&id, code, electionId",
     });
   }
 }
@@ -26,8 +26,8 @@ const db = new VSDatabase();
 
 export async function getConfiguration(): Promise<ConfigStates> {
   const getResult = await db.configuration.bulkGet([
-    'electionDatabaseId',
-    'resultsDatabaseId',
+    "electionDatabaseId",
+    "resultsDatabaseId",
   ]);
 
   const result = configContextToPersistence(getResult);
@@ -52,5 +52,5 @@ export async function addVote(code: string, electionId: string) {
 }
 
 export async function getVotes(electionId: string): Promise<IVote[]> {
-  return await db.votes.where('electionId').equals(electionId).toArray();
+  return await db.votes.where("electionId").equals(electionId).toArray();
 }

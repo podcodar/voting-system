@@ -1,7 +1,7 @@
-'use client';
+"use client";
 
-import { IConfig } from 'src/packages/entities/indexedDb';
-import { ConfigStates } from 'src/packages/features/config-context';
+import { IConfig } from "src/packages/entities/indexedDb";
+import { ConfigStates } from "src/packages/features/config-context";
 
 export function configPersistenceToContext(
   configuration: ConfigStates,
@@ -21,7 +21,7 @@ export function configContextToPersistence(
   const [electionDatabaseId, resultsDatabaseId] = config;
 
   return {
-    electionDatabaseId: electionDatabaseId?.value || '',
-    resultsDatabaseId: resultsDatabaseId?.value || '',
+    electionDatabaseId: electionDatabaseId?.value || "",
+    resultsDatabaseId: resultsDatabaseId?.value || "",
   };
 }

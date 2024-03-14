@@ -1,47 +1,27 @@
-'use client';
+import getElections from "@packages/DAO/elections.dao";
+import HomePage from "@packages/components/HomePage";
+import type { NextPage } from "next";
 
-import { Heading, Box, Flex, Select, Button } from '@chakra-ui/react';
-import Head from 'next/head';
-
-import NavBar from '@packages/components/navbar';
-
-import type { NextPage } from 'next';
-
-const Home: NextPage = () => {
-  const startElection = () => {
-    console.log('startElection clicked!');
-  };
+// TODO: Use prisma to get available elections in the database
+// pass this data to HomePage component and render it
+const ElectionsList = async () => {
+  const elections = await getElections();
+  console.log(elections);
 
   return (
+    <ul>
+      {elections.map((election) => (
+        <li key={election.id}>{election.name}</li>
+      ))}
+    </ul>
+  );
+};
+
+const Home: NextPage = async () => {
+  return (
     <>
-      <NavBar />
-      <Flex h="80vh" w="100vw" alignItems="center" justifyContent="center">
-        <Box>
-          <Head>
-            <title>Eleições 2022</title>
-            <link rel="icon" href="/favicon.ico" />
-          </Head>
-          <main>
-            <Heading as="h1" size="2xl">
-              Selecione uma votação{' '}
-            </Heading>
-            <Box
-              display="flex"
-              alignItems="center"
-              justifyContent="center"
-              width="100%"
-              py="30px"
-            >
-              <Select placeholder="Escolha sua Votação">
-                <option value="option1">Option 1</option>
-                <option value="option2">Option 2</option>
-                <option value="option3">Option 3</option>
-              </Select>
-              <Button onClick={startElection}>Iniciar Votação</Button>
-            </Box>
-          </main>
-        </Box>
-      </Flex>
+      <ElectionsList />
+      <HomePage />;
     </>
   );
 };

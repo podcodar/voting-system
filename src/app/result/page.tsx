@@ -1,10 +1,10 @@
-'use client';
+"use client";
 
-import { Flex, Text } from '@chakra-ui/react';
+import { Flex, Text } from "@chakra-ui/react";
 
-import ResultDisplay from 'src/packages/components/ResultDisplay';
+import ResultDisplay from "src/packages/components/ResultDisplay";
 
-import type { NextPage } from 'next';
+import type { NextPage } from "next";
 
 const ResultPage: NextPage = () => {
   return (
@@ -22,7 +22,7 @@ const ResultPage: NextPage = () => {
         color="#1E90FF"
         textShadow="1px 1px #ADD8E6"
       >
-        {' '}
+        {" "}
         Resultado da Votação
       </Text>
       <ResultDisplay />

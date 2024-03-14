@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { PrismaClient } from "@prisma/client";
 
-import { createElectionValidator } from "@packages/dto/elections.dto";
+import { createElectionValidator } from "src/packages/dto/elections.dto";
 
 const prisma = new PrismaClient();
 

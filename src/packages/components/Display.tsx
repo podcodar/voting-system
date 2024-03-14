@@ -1,10 +1,10 @@
-import { Center, Flex, Heading } from '@chakra-ui/react';
+import { Center, Flex, Heading } from "@chakra-ui/react";
 
-import VotingDisplay from 'src/packages/components/VotingDisplay';
-import { useVotingContext } from 'src/packages/features/voting-context';
+import VotingDisplay from "src/packages/components/VotingDisplay";
+import { useVotingContext } from "src/packages/features/voting-context";
 
 //TODO: Move to centralized theme
-const votingScreenColor = '#D9D9D9';
+const votingScreenColor = "#D9D9D9";
 
 export default function Display() {
   const { isVoting, endMessage } = useVotingContext();

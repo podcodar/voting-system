@@ -1,4 +1,4 @@
-import AppProviders from '@packages/utils/providers';
+import AppProviders from "src/packages/utils/providers";
 
 export default function RootLayout({
   children,

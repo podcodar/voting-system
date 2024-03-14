@@ -12,29 +12,29 @@ import {
   Link,
   useColorModeValue,
   useToast,
-} from '@chakra-ui/react';
-import { useRef } from 'react';
+} from "@chakra-ui/react";
+import { useRef } from "react";
 
-import ConfigForm from 'src/packages/components/ConfigModal/ConfigForm';
-import { IConfigModal } from 'src/packages/entities/config-modal';
+import ConfigForm from "src/packages/components/ConfigModal/ConfigForm";
+import { IConfigModal } from "src/packages/entities/config-modal";
 import {
   useConfigActions,
   useConfigStates,
-} from 'src/packages/features/config-context';
+} from "src/packages/features/config-context";
 import {
   getConfiguration,
   putConfiguration,
-} from 'src/packages/repository/indexedDb';
-import { updateConfigurationSuccess } from 'src/packages/utils/toast-configs';
-import { saveApiKey } from 'src/packages/repository/cookies';
-import { useVotingContext } from 'src/packages/features/voting-context';
+} from "src/packages/repository/indexedDb";
+import { updateConfigurationSuccess } from "src/packages/utils/toast-configs";
+import { saveApiKey } from "src/packages/repository/cookies";
+import { useVotingContext } from "src/packages/features/voting-context";
 
 export default function ConfigModal({ isOpen, onClose }: IConfigModal) {
   const toast = useToast();
   const initialRef = useRef(null);
   const formState = useConfigStates();
   const { updateConfiguration } = useConfigActions();
-  const boxBgColor = useColorModeValue('gray.100', 'gray.900');
+  const boxBgColor = useColorModeValue("gray.100", "gray.900");
   const { loadAvailableElections } = useVotingContext();
 
   const updateContext = async () => {
@@ -46,7 +46,7 @@ export default function ConfigModal({ isOpen, onClose }: IConfigModal) {
 
   const onSubmmit = async () => {
     await putConfiguration(formState);
-    saveApiKey(formState.notionApiKey ?? '');
+    saveApiKey(formState.notionApiKey ?? "");
     loadAvailableElections(formState.electionDatabaseId);
     toast(updateConfigurationSuccess);
     onClose();
@@ -69,8 +69,8 @@ export default function ConfigModal({ isOpen, onClose }: IConfigModal) {
 
           <Box bgColor={boxBgColor} padding="10px" mt="8">
             <Text fontSize="0.8em">
-              {' '}
-              Caso ainda não tenha estes dados lembre-se de seguir nosso{' '}
+              {" "}
+              Caso ainda não tenha estes dados lembre-se de seguir nosso{" "}
               <Link
                 color="teal.500"
                 href="https://www.notion.so/podcodar/Docs-7e84b843b0ee496d8f4bf3e59683072a"

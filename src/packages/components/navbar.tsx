@@ -5,14 +5,14 @@ import {
   Heading,
   useColorModeValue,
   useDisclosure,
-} from '@chakra-ui/react';
-import { EditIcon } from '@chakra-ui/icons';
+} from "@chakra-ui/react";
+import { EditIcon } from "@chakra-ui/icons";
 
-import ConfigModal from 'src/packages/components/ConfigModal';
+import ConfigModal from "src/packages/components/ConfigModal";
 
 export default function NavBar() {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const navbarBgColor = useColorModeValue('gray.50', 'gray.900');
+  const navbarBgColor = useColorModeValue("gray.50", "gray.900");
 
   return (
     <Box

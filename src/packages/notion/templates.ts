@@ -1,6 +1,6 @@
-import { CreatePageParameters } from '@notionhq/client/build/src/api-endpoints';
+import { CreatePageParameters } from "@notionhq/client/build/src/api-endpoints";
 
-import { CreateResultPage } from 'src/packages/entities/notion';
+import { CreateResultPage } from "src/packages/entities/notion";
 
 export function createResultPageFromTemplate({
   databaseId,
@@ -17,12 +17,12 @@ export function createResultPageFromTemplate({
   );
   return {
     parent: {
-      type: 'database_id',
+      type: "database_id",
       database_id: `${databaseId}`,
     },
     icon: {
-      type: 'emoji',
-      emoji: '✔️',
+      type: "emoji",
+      emoji: "✔️",
     },
     properties: {
       Name: {
@@ -35,18 +35,18 @@ export function createResultPageFromTemplate({
         ],
       },
       Eleições: {
-        type: 'relation',
+        type: "relation",
         relation: [{ id: `${electionId}` }],
       },
     },
     children: [
       {
-        object: 'block',
-        type: 'heading_1',
+        object: "block",
+        type: "heading_1",
         heading_1: {
           rich_text: [
             {
-              type: 'text',
+              type: "text",
               text: {
                 content: `Partido Vencedor - ${winnerParty.name} - ${winnerParty.votes} Votos`,
                 link: null,
@@ -57,42 +57,42 @@ export function createResultPageFromTemplate({
                 strikethrough: false,
                 underline: false,
                 code: false,
-                color: 'default',
+                color: "default",
               },
             },
           ],
-          color: 'default',
+          color: "default",
         },
       },
       {
-        object: 'block',
-        type: 'paragraph',
+        object: "block",
+        type: "paragraph",
         paragraph: {
           rich_text: [
             {
-              type: 'text',
+              type: "text",
               text: {
-                content: 'Candidatos vencedores:',
+                content: "Candidatos vencedores:",
                 link: null,
               },
             },
           ],
-          color: 'default',
+          color: "default",
         },
       },
       ...winningMemberBlocks,
       {
-        object: 'block',
-        type: 'divider',
+        object: "block",
+        type: "divider",
         divider: {},
       },
       {
-        object: 'block',
-        type: 'heading_1',
+        object: "block",
+        type: "heading_1",
         heading_1: {
           rich_text: [
             {
-              type: 'text',
+              type: "text",
               text: {
                 content: `Segundo colocado - ${looserParty.name} - ${looserParty.votes} Votos`,
                 link: null,
@@ -103,27 +103,27 @@ export function createResultPageFromTemplate({
                 strikethrough: false,
                 underline: false,
                 code: false,
-                color: 'default',
+                color: "default",
               },
             },
           ],
-          color: 'default',
+          color: "default",
         },
       },
       {
-        object: 'block',
-        type: 'paragraph',
+        object: "block",
+        type: "paragraph",
         paragraph: {
           rich_text: [
             {
-              type: 'text',
+              type: "text",
               text: {
-                content: 'Candidatos:',
+                content: "Candidatos:",
                 link: null,
               },
             },
           ],
-          color: 'default',
+          color: "default",
         },
       },
       ...looserMemberBlocks,
@@ -132,11 +132,11 @@ export function createResultPageFromTemplate({
 }
 
 const _createCandidateBlocks = (candidate_name: string) => ({
-  type: 'bulleted_list_item',
+  type: "bulleted_list_item",
   bulleted_list_item: {
     rich_text: [
       {
-        type: 'text',
+        type: "text",
         text: {
           content: `${candidate_name}`,
         },

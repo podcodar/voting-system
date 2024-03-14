@@ -1,8 +1,8 @@
-import { Flex, Heading, Input } from '@chakra-ui/react';
+import { Flex, Heading, Input } from "@chakra-ui/react";
 
-import { useVotingContext } from 'src/packages/features/voting-context';
+import { useVotingContext } from "src/packages/features/voting-context";
 
-function DigitBoxInput({ value = '' }) {
+function DigitBoxInput({ value = "" }) {
   return (
     <Input
       bg="white"

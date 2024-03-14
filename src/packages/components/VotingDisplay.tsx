@@ -1,10 +1,10 @@
-import { Center, Flex, Text } from '@chakra-ui/react';
+import { Center, Flex, Text } from "@chakra-ui/react";
 
-import { useVotingContext } from 'src/packages/features/voting-context';
+import { useVotingContext } from "src/packages/features/voting-context";
 
-import DigitBox from './DigitBox';
-import PartyInfo from './PartyInfo';
-import CandidatePhotos from './CandidatePhotos';
+import DigitBox from "./DigitBox";
+import PartyInfo from "./PartyInfo";
+import CandidatePhotos from "./CandidatePhotos";
 
 export default function VotingDisplay() {
   const { selectedParty, nullVote, isBlankSelected } = useVotingContext();
@@ -47,21 +47,21 @@ function VoteInstructions() {
   return (
     <Flex
       sx={{
-        fontSize: '26px',
-        fontFamily: 'inter',
-        width: '45ch',
-        p: '1rem 1rem 10% 1rem',
-        fontWeight: '700',
-        gap: '0.3rem',
-        flexDir: 'column',
+        fontSize: "26px",
+        fontFamily: "inter",
+        width: "45ch",
+        p: "1rem 1rem 10% 1rem",
+        fontWeight: "700",
+        gap: "0.3rem",
+        flexDir: "column",
       }}
     >
       <Text ml="">Aperte a tecla:</Text>
       <Text ml="1.5rem">
-        <span style={{ color: '#38A169' }}>VERDE</span> para confirmar seu voto
+        <span style={{ color: "#38A169" }}>VERDE</span> para confirmar seu voto
       </Text>
       <Text ml="2rem">
-        <span style={{ color: '#E53E3E' }}>VERMELHO</span> para reiniciar seu
+        <span style={{ color: "#E53E3E" }}>VERMELHO</span> para reiniciar seu
         voto
       </Text>
     </Flex>
@@ -74,12 +74,12 @@ function NullBlankBox() {
     <Center>
       <Text
         sx={{
-          fontSize: '80px',
-          fontFamily: 'inter',
-          fontWeight: '700',
+          fontSize: "80px",
+          fontFamily: "inter",
+          fontWeight: "700",
         }}
       >
-        {`VOTO ${!isBlankSelected ? 'NULO' : 'EM BRANCO'}`}
+        {`VOTO ${!isBlankSelected ? "NULO" : "EM BRANCO"}`}
       </Text>
     </Center>
   );

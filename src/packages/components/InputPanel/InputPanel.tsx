@@ -1,12 +1,12 @@
-import { Flex, Grid } from '@chakra-ui/react';
+import { Flex, Grid } from "@chakra-ui/react";
 
-import { useVotingContext } from 'src/packages/features/voting-context';
+import { useVotingContext } from "src/packages/features/voting-context";
 
-import BaseButton from '../BaseButton';
+import BaseButton from "../BaseButton";
 
-import { NumericButton } from './NumericButton';
+import { NumericButton } from "./NumericButton";
 
-const digitList = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0'];
+const digitList = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "0"];
 
 export default function InputPanel() {
   const {
@@ -44,7 +44,7 @@ export default function InputPanel() {
           fontFamily="Inter"
           fontWeight="normal"
           fontSize="1.1rem"
-          cursor={`${isBlankSelected && 'not-allowed'}`}
+          cursor={`${isBlankSelected && "not-allowed"}`}
         >
           {digitList.map((num) => (
             <NumericButton key={num} clickHandler={updateVoteInput}>
