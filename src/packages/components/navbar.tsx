@@ -1,17 +1,8 @@
-import {
-  Box,
-  Button,
-  Container,
-  Heading,
-  useColorModeValue,
-  useDisclosure,
-} from "@chakra-ui/react";
-import { EditIcon } from "@chakra-ui/icons";
+"use client";
 
-import ConfigModal from "src/packages/components/ConfigModal";
+import { Box, Container, Heading, useColorModeValue } from "@chakra-ui/react";
 
 export default function NavBar() {
-  const { isOpen, onOpen, onClose } = useDisclosure();
   const navbarBgColor = useColorModeValue("gray.50", "gray.900");
 
   return (
@@ -23,20 +14,10 @@ export default function NavBar() {
       zIndex={1}
       bg={navbarBgColor}
     >
-      <Container
-        p="1rem"
-        display="flex"
-        maxW="5xl"
-        justifyContent="space-between"
-      >
-        <Button onClick={onOpen} colorScheme="blue">
-          Configurações Notion <EditIcon paddingLeft="2px" />
-        </Button>
-
+      <Container p="1rem" display="flex" maxW="5xl" justifyContent="center">
         <Heading color="teal.500" as="h3">
           Voting-System
         </Heading>
-        <ConfigModal isOpen={isOpen} onClose={onClose} />
       </Container>
     </Box>
   );
