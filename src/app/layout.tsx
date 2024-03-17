@@ -1,4 +1,4 @@
-import AppProviders from "src/packages/utils/providers";
+import "src/styles/globals.css";
 
 export default function RootLayout({
   children,
@@ -13,9 +13,7 @@ export default function RootLayout({
       <link rel="icon" href="/favicon.ico" />
 
       <body>
-        <main>
-          <AppProviders>{children}</AppProviders>
-        </main>
+        <main>{children}</main>
       </body>
     </html>
   );

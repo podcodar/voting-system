@@ -7,10 +7,11 @@ datasource db {
   url      = "postgresql://test:test@localhost:5432/test"
 }
 
+
 model Election {
   id          String   @id @default(uuid())
   name        String
-  electionDay DateTime
+  status      ElectionStatus @default(NOT_STARTED)
 
   createdAt DateTime  @default(now())
   deletedAt DateTime?
@@ -53,4 +54,10 @@ model Vote {
 
   election  Election  @relation(fields: [electionId], references: [id])
   candidate Candidate @relation(fields: [candidateId], references: [id])
+}
+
+enum ElectionStatus {
+  NOT_STARTED
+  ONGOING
+  FINISHED
 }

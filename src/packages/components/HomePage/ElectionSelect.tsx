@@ -1,23 +1,23 @@
-"use client";
-
-import { Button, Flex, Select } from "@chakra-ui/react";
-
 export default function ElectionsSelect({
   options,
 }: {
   options: { name: string; value: string }[];
 }) {
   return (
-    <Flex gap={4} justifyContent="space-between">
-      <Select placeholder="Escolha sua Votação" minW="250px">
+    <div>
+      <select className="px-6">
+        <option value={undefined}> Select an election</option>
+
         {options.map((option) => (
           <option key={option.value} value={option.value}>
             {option.name}
           </option>
         ))}
-      </Select>
+      </select>
 
-      <Button>Test</Button>
-    </Flex>
+      <button type="submit" className="px-2">
+        Test
+      </button>
+    </div>
   );
 }
