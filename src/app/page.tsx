@@ -1,13 +1,11 @@
 import ElectionForm from "@packages/components/HomePage/ElectionForm";
 import type { NextPage } from "next";
 
-const Home: NextPage = async () => {
+const Home: NextPage = () => {
   return (
-    <>
-      <div className="flex items-center justify-center h-screen">
-        <ElectionForm />
-      </div>
-    </>
+    <div className="flex items-center justify-center h-screen content-center">
+      <ElectionForm />
+    </div>
   );
 };
 

@@ -1,6 +1,6 @@
 import "src/styles/globals.css";
 
-import NavBar from "@packages/components/navbar";
+import NavBar from "@packages/components/Navbar";
 
 export default function RootLayout({
   children,
@@ -16,6 +16,7 @@ export default function RootLayout({
 
       <body>
         <NavBar />
+
         <div className="md:container md:mx-auto content-center h-screen">
           <main>{children}</main>
         </div>
