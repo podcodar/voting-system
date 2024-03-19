@@ -3,9 +3,10 @@
     "baseUrl": ".",
     "paths": {
       "@packages/*": ["src/packages/*"],
-      "@components/*": ["src/packages/components/*"]
+      "@components/*": ["src/packages/components/*"],
+      "@lib/*": ["src/lib/*"]
     },
-    "target": "es5",
+    "target": "es6",
     "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
     "skipLibCheck": true,

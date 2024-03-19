@@ -1,16 +1,25 @@
-import AppProviders from '@packages/utils/providers';
+import "src/styles/globals.css";
+
+import NavBar from "@packages/components/Navbar";
 
 export default function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const currentYear = new Date().getFullYear();
+
   return (
     <html lang="en">
+      <title>{`Eleições ${currentYear}`}</title>
+      <link rel="icon" href="/favicon.ico" />
+
       <body>
-        <main>
-          <AppProviders>{children}</AppProviders>
-        </main>
+        <NavBar />
+
+        <div className="md:container md:mx-auto content-center h-full">
+          <main>{children}</main>
+        </div>
       </body>
     </html>
   );
