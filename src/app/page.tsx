@@ -3,7 +3,7 @@ import type { NextPage } from "next";
 
 const Home: NextPage = () => {
   return (
-    <div className="flex items-center justify-center h-screen content-center">
+    <div className="flex items-center justify-center h-[80vh] content-center">
       <ElectionForm />
     </div>
   );

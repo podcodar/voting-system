@@ -3,11 +3,8 @@
 import prisma from "@lib/prisma";
 import { CreateElection } from "@packages/entities/elections";
 import { ElectionStatus } from "@prisma/client";
+import { revalidatePath } from "next/cache";
 import { z } from "zod";
-
-async function getElections() {
-  return await prisma.election.findMany();
-}
 
 export async function getElectionsOptions() {
   const elections = await getElections();
@@ -37,17 +34,29 @@ export async function createElection(formData: CreateElection) {
   });
 }
 
-export async function updateElectionStatus(electionId: string) {
-  const updateElectionSchema = z.string().uuid();
+export async function startElection(formData: FormData) {
+  console.log({ formData });
+  const electionId = String(formData.get("electionId"));
+  console.log({ electionId });
 
+  const updateElectionSchema = z.string().uuid();
   const parsedElectionId = updateElectionSchema.parse(electionId);
 
   await prisma.election.update({
     where: { id: parsedElectionId },
     data: {
+      name: "Updated on server",
       status: ElectionStatus.ONGOING,
     },
   });
 
-  return parsedElectionId;
+  revalidatePath("/");
 }
+
+async function getElections() {
+  return await prisma.election.findMany();
+}
+
+// async function updateElection() {
+//   return await prisma.election.findMany();
+// }

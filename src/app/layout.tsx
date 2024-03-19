@@ -17,7 +17,7 @@ export default function RootLayout({
       <body>
         <NavBar />
 
-        <div className="md:container md:mx-auto content-center h-screen">
+        <div className="md:container md:mx-auto content-center h-full">
           <main>{children}</main>
         </div>
       </body>
