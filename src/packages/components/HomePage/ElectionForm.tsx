@@ -10,7 +10,7 @@ export default async function ElectionForm() {
   return (
     <div className="flex flex-col gap-14 justify-center content-center">
       <h1 className="font-bold text-xl w-full align">
-        Selecione uma eleiceção
+        Selecione uma eleição
       </h1>
 
       <form action={startElection}>
