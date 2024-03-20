@@ -53,6 +53,23 @@ export async function startElection(formData: FormData) {
   revalidatePath("/");
 }
 
+const VALUES = ["NOT_STARTED", "ONGOING", "FINISHED"] as const;
+
+export async function addElection(formData: FormData) {
+  const electionName = String(formData.get("electionName"));
+  const electionStatus = String(formData.get("electionStatus"));
+  const nameElectionSchema = z.string().min(1);
+  const statusElectionSchema = z.enum(VALUES);
+  const parsedElectionName = nameElectionSchema.parse(electionName);
+  const parsedElectionStatus = statusElectionSchema.parse(electionStatus);
+  return await prisma.election.create({
+    data: {
+      name: parsedElectionName,
+      status: parsedElectionStatus,
+    },
+  });
+}
+
 async function getElections() {
   return await prisma.election.findMany();
 }
