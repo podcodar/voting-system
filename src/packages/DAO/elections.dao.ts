@@ -1,9 +1,10 @@
 "use server";
 
 import prisma from "@lib/prisma";
+import { createElectionValidator } from "@packages/dto/elections.dto";
+import { revalidatePath } from "next/cache";
 import type { CreateElection } from "@packages/entities/elections";
 import { ElectionStatus } from "@prisma/client";
-import { revalidatePath } from "next/cache";
 import { z } from "zod";
 
 export async function getElectionsOptions() {
@@ -53,23 +54,15 @@ export async function startElection(formData: FormData) {
   revalidatePath("/");
 }
 
-const VALUES = ["NOT_STARTED", "ONGOING", "FINISHED"] as const;
-
 export async function addElection(formData: FormData) {
-  const electionName = String(formData.get("electionName"));
-  const electionStatus = String(formData.get("electionStatus"));
-  const nameElectionSchema = z.string().min(1);
-  const statusElectionSchema = z.enum(VALUES);
-  const parsedElectionName = nameElectionSchema.parse(electionName);
-  const parsedElectionStatus = statusElectionSchema.parse(electionStatus);
-  return await prisma.election.create({
-    data: {
-      name: parsedElectionName,
-      status: parsedElectionStatus,
-    },
+  const data = Object.fromEntries(formData);
+  const parsedData = createElectionValidator.parse(data);
+  await prisma.election.create({
+    data: parsedData,
   });
-}
 
+  revalidatePath("/");
+}
 async function getElections() {
   return await prisma.election.findMany();
 }
