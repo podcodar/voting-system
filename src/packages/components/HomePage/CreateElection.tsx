@@ -1,16 +1,21 @@
+"use client";
 import Button from "@components/Button";
-import { addElection } from "@packages/DAO/elections.dao";
 import { ElectionStatus } from "@prisma/client";
 
-export default async function CreateElection() {
+export default function CreateElection({
+  onAction,
+}: {
+  onAction?: (formData: FormData) => void;
+}) {
   const electionsState = () => {
     const elections = Object.values(ElectionStatus);
     return elections;
   };
+
   return (
-    <div className="flex pt-10 pb-10 flex-col gap-14 ring-1 ring-inset ring-gray-300 rounded-md border-0 py-1.5 pl-10 pr-10">
+    <div className="flex pt-5 pb-5 flex-col gap-5 rounded-md border-0 py-1.5 pl-5 pr-5">
       <h1 className="font-bold text-sl w-full align">Crie uma eleição</h1>
-      <form action={addElection}>
+      <form action={onAction}>
         <div className="grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6 ">
           <div className="sm:col-span-10">
             <label
@@ -58,12 +63,6 @@ export default async function CreateElection() {
           </div>
         </div>
         <div className="mt-10 flex gap-7 flex-row justify-center">
-          <button
-            type="button"
-            className="text-sm font-semibold leading-6 text-gray-900"
-          >
-            Cancel
-          </button>
           <Button type="submit">salvar</Button>
         </div>
       </form>

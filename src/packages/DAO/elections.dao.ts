@@ -36,10 +36,7 @@ export async function createElection(formData: CreateElection) {
 }
 
 export async function startElection(formData: FormData) {
-  console.log({ formData });
   const electionId = String(formData.get("electionId"));
-  console.log({ electionId });
-
   const updateElectionSchema = z.string().uuid();
   const parsedElectionId = updateElectionSchema.parse(electionId);
 
