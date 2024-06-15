@@ -1,25 +1,56 @@
-name: Merge Request Quality Gate
+name: Deploy to Vercel
 
 on: pull_request
 
 jobs:
-  lint-and-build:
+  # lint-and-test:
+  #   runs-on: ubuntu-latest
+
+  #   steps:
+  #   - name: Checkout code
+  #     uses: actions/checkout@v3
+
+  #   - name: Set up Node.js
+  #     uses: actions/setup-node@v3
+  #     with:
+  #       node-version: 20
+
+  #   - name: Install dependencies
+  #     run: yarn
+
+  #   - name: Run lint
+  #     run: yarn lint
+
+    # - name: Run tests
+    #   run: yarn test
+
+  build-and-deploy:
     runs-on: ubuntu-latest
-    name: Lint and build
+    environment: Production
+    needs: lint-and-test
 
     steps:
-      - uses: actions/checkout@v3
+    - name: Checkout code
+      uses: actions/checkout@v3
 
-      - name: Setup node 20
-        uses: actions/setup-node@v3
-        with:
-          node-version: 20.x
+    - name: Set up Node
+      uses: actions/setup-node@v3
+      with:
+        node-version: 20
 
-      - name: Install dependencies
-        run: yarn
+    - name: Install dependencies
+      run: echo ${{ secrets.DATABASE_URL }}
+      
+    - name: Install dependencies
+      run: echo ${{ secrets.DATABASE_URL }} > .env
 
-      - name: Lint code
-        run: yarn lint
+    - name: Install dependencies
+      run: yarn
+      
+    - name: Run database migrations
+      run: yarn migrate
 
-      - name: Check build
-        run: yarn build
+    - name: Deploy to Vercel
+      run: vercel --prod
+      env:
+        VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}

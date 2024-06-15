@@ -7,6 +7,7 @@
 		"build": "next build",
 		"start": "next start",
 		"lint": "biome check",
+		"migrate": "prisma migrate dev",
 		"format": "biome format",
 		"postinstall": "prisma generate"
 	},
