@@ -1,11 +1,11 @@
-'use client';
+"use client";
 
-import { Context, createContext, useContext, Provider } from 'react';
+import { type Context, type Provider, createContext, useContext } from "react";
 
 export type SafeContextResult<T> = [
-  () => T,
-  Provider<T | null>,
-  Context<T | null>,
+	() => T,
+	Provider<T | null>,
+	Context<T | null>,
 ];
 
 /**
@@ -19,20 +19,20 @@ export type SafeContextResult<T> = [
  * @returns A context consumer, the context provider and the context itself
  */
 function createCtx<T>(displayName: Readonly<string>): SafeContextResult<T> {
-  const Ctx = createContext<T | null>(null);
-  Ctx.displayName = displayName;
+	const Ctx = createContext<T | null>(null);
+	Ctx.displayName = displayName;
 
-  function useCtx() {
-    const value = useContext(Ctx);
-    if (value === null)
-      throw new Error(
-        `Missing ${displayName} context provider upwards on this tree`,
-      );
+	function useCtx() {
+		const value = useContext(Ctx);
+		if (value === null)
+			throw new Error(
+				`Missing ${displayName} context provider upwards on this tree`,
+			);
 
-    return value;
-  }
+		return value;
+	}
 
-  return [useCtx, Ctx.Provider, Ctx];
+	return [useCtx, Ctx.Provider, Ctx];
 }
 
 export default createCtx;

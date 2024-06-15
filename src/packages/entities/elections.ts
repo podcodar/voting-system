@@ -1,4 +1,4 @@
 export type CreateElection = {
-  name: string;
-  candidates: Array<string[]>;
+	name: string;
+	candidates: Array<string[]>;
 };
