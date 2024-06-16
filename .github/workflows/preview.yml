@@ -61,3 +61,5 @@ jobs:
 
       - name: Deploy Project Artifacts to Vercel
         run: vercel deploy --prebuilt --token=${{ secrets.VERCEL_TOKEN }}
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
