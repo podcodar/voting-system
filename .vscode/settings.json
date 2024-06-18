@@ -13,7 +13,7 @@
 	"[json]": {
 		"editor.defaultFormatter": "biomejs.biome"
 	},
-	"cSpell.words": ["biomejs", "lefthook", "tailwindcss", "Vercel"],
+	"cSpell.words": ["biomejs", "lefthook", "shadcn", "tailwindcss", "Vercel"],
 	"[github-actions-workflow]": {
 		"editor.defaultFormatter": "esbenp.prettier-vscode"
 	}

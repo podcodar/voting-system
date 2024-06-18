@@ -4,6 +4,7 @@
 		"paths": {
 			"@packages/*": ["src/packages/*"],
 			"@components/*": ["src/packages/components/*"],
+			"@shadcn-ui": ["src/packages/shadcn-ui"],
 			"@lib/*": ["src/lib/*"]
 		},
 		"target": "es6",
