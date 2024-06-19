@@ -5,7 +5,7 @@
 		"ignore": [],
 		"attributePosition": "auto",
 		"indentStyle": "tab",
-		"indentWidth": 2,
+		"indentWidth": 1,
 		"lineWidth": 80,
 		"lineEnding": "lf"
 	},
@@ -21,7 +21,9 @@
 	},
 	"json": {
 		"formatter": {
-			"trailingCommas": "none"
+			"trailingCommas": "none",
+			"indentWidth": 1,
+			"lineWidth": 80
 		}
 	},
 	"files": {
