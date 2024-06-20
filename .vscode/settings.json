@@ -3,8 +3,18 @@
     "source.fixAll.eslint": "always"
   },
   "editor.formatOnSave": true,
-  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.defaultFormatter": "biomejs.biome",
   "[typescript]": {
+    "editor.defaultFormatter": "biomejs.biome"
+  },
+  "[typescriptreact]": {
+    "editor.defaultFormatter": "biomejs.biome"
+  },
+  "[json]": {
+    "editor.defaultFormatter": "biomejs.biome"
+  },
+  "cSpell.words": ["biomejs", "lefthook", "shadcn", "tailwindcss", "Vercel"],
+  "[github-actions-workflow]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   }
 }

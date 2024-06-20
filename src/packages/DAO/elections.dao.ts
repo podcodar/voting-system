@@ -1,7 +1,7 @@
 "use server";
 
 import prisma from "@lib/prisma";
-import { CreateElection } from "@packages/entities/elections";
+import type { CreateElection } from "@packages/entities/elections";
 import { ElectionStatus } from "@prisma/client";
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
