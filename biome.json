@@ -23,6 +23,7 @@
 		"formatter": {
 			"trailingCommas": "none",
 			"indentWidth": 1,
+			"indentStyle": "tab",
 			"lineWidth": 80
 		}
 	},

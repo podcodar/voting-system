@@ -9,11 +9,12 @@
 		"lint": "biome check",
 		"migrate": "prisma migrate dev",
 		"generate": "prisma generate",
-		"format": "biome format",
+		"format": "biome format --write .",
 		"postinstall": "prisma generate"
 	},
 	"dependencies": {
 		"@prisma/client": "^5.11.0",
+		"@radix-ui/react-menubar": "^1.0.4",
 		"@radix-ui/react-slot": "^1.0.2",
 		"class-variance-authority": "^0.7.0",
 		"clsx": "^2.1.1",
