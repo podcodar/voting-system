@@ -1,32 +1,32 @@
 {
-	"compilerOptions": {
-		"baseUrl": ".",
-		"paths": {
-			"@packages/*": ["src/packages/*"],
-			"@components/*": ["src/packages/components/*"],
-			"@shadcn-ui": ["src/packages/shadcn-ui"],
-			"@lib/*": ["src/lib/*"]
-		},
-		"target": "es6",
-		"lib": ["dom", "dom.iterable", "esnext"],
-		"allowJs": true,
-		"skipLibCheck": true,
-		"strict": true,
-		"forceConsistentCasingInFileNames": true,
-		"noEmit": true,
-		"esModuleInterop": true,
-		"module": "esnext",
-		"moduleResolution": "node",
-		"resolveJsonModule": true,
-		"isolatedModules": true,
-		"jsx": "preserve",
-		"incremental": true,
-		"plugins": [
-			{
-				"name": "next"
-			}
-		]
-	},
-	"include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
-	"exclude": ["node_modules"]
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@packages/*": ["src/packages/*"],
+      "@components/*": ["src/packages/components/*"],
+      "@shadcn-ui": ["src/packages/shadcn-ui"],
+      "@lib/*": ["src/lib/*"]
+    },
+    "target": "es6",
+    "lib": ["dom", "dom.iterable", "esnext"],
+    "allowJs": true,
+    "skipLibCheck": true,
+    "strict": true,
+    "forceConsistentCasingInFileNames": true,
+    "noEmit": true,
+    "esModuleInterop": true,
+    "module": "esnext",
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "jsx": "preserve",
+    "incremental": true,
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ]
+  },
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
+  "exclude": ["node_modules"]
 }
