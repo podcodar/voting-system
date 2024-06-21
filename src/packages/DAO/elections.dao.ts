@@ -1,6 +1,7 @@
 "use server";
 
 import prisma from "@lib/prisma";
+import { createElectionValidator } from "@packages/dto/elections.dto";
 import type { CreateElection } from "@packages/entities/elections";
 import { ElectionStatus } from "@prisma/client";
 import { revalidatePath } from "next/cache";
@@ -35,10 +36,7 @@ export async function createElection(formData: CreateElection) {
 }
 
 export async function startElection(formData: FormData) {
-  console.log({ formData });
   const electionId = String(formData.get("electionId"));
-  console.log({ electionId });
-
   const updateElectionSchema = z.string().uuid();
   const parsedElectionId = updateElectionSchema.parse(electionId);
 
@@ -53,6 +51,15 @@ export async function startElection(formData: FormData) {
   revalidatePath("/");
 }
 
+export async function addElection(formData: FormData) {
+  const data = Object.fromEntries(formData);
+  const parsedData = createElectionValidator.parse(data);
+  await prisma.election.create({
+    data: parsedData,
+  });
+
+  revalidatePath("/");
+}
 async function getElections() {
   return await prisma.election.findMany();
 }
