@@ -2,9 +2,9 @@
 
 import prisma from "@lib/prisma";
 import { createElectionValidator } from "@packages/dto/elections.dto";
-import { revalidatePath } from "next/cache";
 import type { CreateElection } from "@packages/entities/elections";
 import { ElectionStatus } from "@prisma/client";
+import { revalidatePath } from "next/cache";
 import { z } from "zod";
 
 export async function getElectionsOptions() {
