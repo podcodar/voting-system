@@ -1,5 +1,6 @@
 "use client";
 import Button from "@components/Button";
+import { DialogClose } from "@packages/shadcn-ui/ui/dialog";
 import { ElectionStatus } from "@prisma/client";
 
 export default function CreateElection({
@@ -14,7 +15,6 @@ export default function CreateElection({
 
   return (
     <div className="flex pt-5 pb-5 flex-col gap-5 rounded-md border-0 py-1.5 pl-5 pr-5">
-      <h1 className="font-bold text-sl w-full align">Crie uma eleição</h1>
       <form action={onAction}>
         <div className="grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6 ">
           <div className="sm:col-span-10">
@@ -63,7 +63,9 @@ export default function CreateElection({
           </div>
         </div>
         <div className="mt-10 flex gap-7 flex-row justify-center">
-          <Button type="submit">salvar</Button>
+          <DialogClose>
+            <Button type="submit">salvar</Button>
+          </DialogClose>
         </div>
       </form>
     </div>
