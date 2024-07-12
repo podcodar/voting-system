@@ -3,6 +3,7 @@ import {
   getElectionsOptions,
   startElection,
 } from "@packages/DAO/elections.dao";
+import Link from "next/link";
 
 export default async function ElectionForm() {
   const electionOptions = await getElectionsOptions();
@@ -38,7 +39,13 @@ export default async function ElectionForm() {
               </svg>
             </div>
           </div>
-          <Button type="submit">Iniciar Eleição</Button>
+          <div>
+            {
+              <Link href="/election">
+                <Button type="submit">Iniciar Eleição</Button>
+              </Link>
+            }
+          </div>
         </div>
       </form>
     </div>
