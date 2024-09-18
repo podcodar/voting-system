@@ -38,7 +38,7 @@ export default async function ElectionForm() {
               </svg>
             </div>
           </div>
-          <div>{<Button type="submit">Iniciar Eleição</Button>}</div>
+          <Button type="submit">Iniciar Eleição</Button>
         </div>
       </form>
     </div>
