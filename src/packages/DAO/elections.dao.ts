@@ -63,6 +63,9 @@ export async function startElection(formData: FormData) {
 
 async function getElections() {
   const res = await prisma.election.findMany();
+  if (!res) {
+    throw new NotFound("");
+  }
   return res;
 }
 

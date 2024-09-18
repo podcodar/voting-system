@@ -6,7 +6,7 @@ export class NotFound extends Error {
   public readonly statusCode: number;
 
   constructor(entity: string) {
-    super(`${entity} não foi encontrada`);
+    super(`${entity}: Página não foi encontrada`);
     this.statusCode = 404;
   }
 }
