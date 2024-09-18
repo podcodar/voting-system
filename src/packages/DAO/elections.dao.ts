@@ -44,10 +44,14 @@ export async function createElection(formData: CreateElection) {
 export async function startElection(formData: FormData) {
   const electionId = String(formData.get("electionId"));
   const updateElectionSchema = z.string().uuid();
-  const parsedElectionId = updateElectionSchema.parse(electionId);
+  const parsedElectionId = updateElectionSchema.safeParse(electionId);
+
+  if (!parsedElectionId.success) {
+    throw new BadRequestError(parsedElectionId.error.name);
+  }
 
   await prisma.election.update({
-    where: { id: parsedElectionId },
+    where: { id: parsedElectionId.data },
     data: {
       name: "Updated on server",
       status: ElectionStatus.ONGOING,
@@ -64,7 +68,6 @@ async function getElections() {
 
 async function findByNameOrStatus({ name, status }: FindElection) {
   const resultElection = await getElections();
-  console.log(resultElection);
   const result = resultElection.find(
     (e) => e.name === name && e.status === status,
   );
