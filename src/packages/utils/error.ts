@@ -1,7 +1,3 @@
-// Clicar no botão para criar uma eleição sem dados - Error 1
-
-// Clicar no botão de iniciar eleição sem selecionar eleição - Error 2
-
 export class NotFound extends Error {
   public readonly statusCode: number;
 
