@@ -48,7 +48,7 @@ export async function startElection(formData: FormData) {
     },
   });
 
-  redirect(`http://localhost:3000/elections/${electionId}`);
+  redirect(`elections/${electionId}`);
 }
 
 export async function addElection(formData: FormData) {
