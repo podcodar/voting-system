@@ -14,4 +14,4 @@ export const electionSchema = z.object({
   candidates: z.array(z.string().uuid()),
 });
 
-export const updateElectionSchema = z.string().uuid;
+export const updateElectionSchema = z.string().uuid();
