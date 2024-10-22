@@ -1,7 +1,11 @@
 "use server";
 
 import prisma from "@lib/prisma";
-import { createElectionValidator } from "@packages/dto/elections.dto";
+import {
+  createElectionValidator,
+  electionSchema,
+  updateElectionSchema,
+} from "@packages/dto/elections.dto";
 import type { CreateElection } from "@packages/entities/elections";
 import { BadRequestError, NotFound } from "@packages/utils/error";
 import { ElectionStatus } from "@prisma/client";
@@ -23,10 +27,6 @@ export async function getElectionsOptions() {
 }
 
 export async function createElection(formData: CreateElection) {
-  const electionSchema = z.object({
-    name: z.string(),
-    candidates: z.array(z.string().uuid()),
-  });
   const parsedFormData = electionSchema.parse(formData);
 
   return await prisma.election.create({
@@ -43,7 +43,6 @@ export async function createElection(formData: CreateElection) {
 
 export async function startElection(formData: FormData) {
   const electionId = String(formData.get("electionId"));
-  const updateElectionSchema = z.string().uuid();
   const parsedElectionId = updateElectionSchema.safeParse(electionId);
 
   if (!parsedElectionId.success) {
