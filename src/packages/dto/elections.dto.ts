@@ -10,8 +10,8 @@ export const createElectionValidator = z.object({
 });
 
 export const electionSchema = z.object({
-  name: z.string(),
+  name: createElectionValidator.shape.name,
   candidates: z.array(z.string().uuid()),
 });
 
-export const updateElectionSchema = z.string().uuid();
+export const updateElectionSchema = z.string().uuid;
