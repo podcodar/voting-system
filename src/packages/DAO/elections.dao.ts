@@ -5,11 +5,11 @@ import { createElectionValidator } from "@packages/dto/elections.dto";
 import type { CreateElection } from "@packages/entities/elections";
 import { ElectionStatus } from "@prisma/client";
 import { revalidatePath } from "next/cache";
+import { redirect } from "next/navigation";
 import { z } from "zod";
 
 export async function getElectionsOptions() {
   const elections = await getElections();
-
   return elections.map((election) => ({
     name: election.name,
     value: election.id,
@@ -48,7 +48,7 @@ export async function startElection(formData: FormData) {
     },
   });
 
-  revalidatePath("/");
+  redirect(`elections/${electionId}`);
 }
 
 export async function addElection(formData: FormData) {
