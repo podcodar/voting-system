@@ -11,12 +11,9 @@ import { BadRequestError, NotFound } from "@packages/utils/error";
 import { ElectionStatus } from "@prisma/client";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
-import { z } from "zod";
+import type { z } from "zod";
 
-interface FindElection {
-  name: string;
-  status: string;
-}
+type FindElection = z.infer<typeof createElectionValidator>;
 
 export async function getElectionsOptions() {
   const elections = await getElections();
