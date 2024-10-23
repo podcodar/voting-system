@@ -2,6 +2,7 @@
 
 import prisma from "@lib/prisma";
 import {
+  type FindElection,
   createElectionValidator,
   electionSchema,
   updateElectionSchema,
@@ -11,9 +12,6 @@ import { BadRequestError, NotFound } from "@packages/utils/error";
 import { ElectionStatus } from "@prisma/client";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
-import type { z } from "zod";
-
-type FindElection = z.infer<typeof createElectionValidator>;
 
 export async function getElectionsOptions() {
   const elections = await getElections();

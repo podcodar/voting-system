@@ -18,4 +18,4 @@ export const updateElectionSchema = z
   .string()
   .uuid({ message: "ID de eleição inválido" });
 
-type FindElection = z.infer<typeof createElectionValidator>;
+export type FindElection = z.infer<typeof createElectionValidator>;
