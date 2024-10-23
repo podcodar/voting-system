@@ -62,6 +62,7 @@ async function getElections() {
   }
   return res;
 }
+
 async function findByNameOrStatus({ name, status }: FindElection) {
   const resultElection = await getElections();
   const result = resultElection.find(
@@ -69,6 +70,7 @@ async function findByNameOrStatus({ name, status }: FindElection) {
   );
   return result;
 }
+
 export async function addElection(formData: FormData) {
   const data = Object.fromEntries(formData);
   const parsedData = createElectionValidator.safeParse(data);
