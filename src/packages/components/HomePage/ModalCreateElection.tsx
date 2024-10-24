@@ -2,7 +2,6 @@
 import { addElection } from "@packages/DAO/elections.dao";
 import {
   Dialog,
-  DialogClose,
   DialogContent,
   DialogDescription,
   DialogHeader,
