@@ -1,10 +1,8 @@
-import type { NextPage } from "next";
-
-const Home: NextPage = () => {
+const Home = () => {
   return (
     <div className="flex items-center justify-center h-[80vh] content-center">
       <div>
-        <p> Elections</p>
+        <h1> Resultados da Eleição </h1>
       </div>
     </div>
   );
