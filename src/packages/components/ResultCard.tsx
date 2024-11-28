@@ -18,7 +18,7 @@ function ResultCard({
   image,
 }: ElectionResult) {
   return (
-    <Card className="flex flex-row w-[60vw] p-4 shadow-md shadow-gray-200 border-[rgba(0,0,0,0)]">
+    <Card className="flex flex-row w-[60vw] p-4 shadow-md shadow-gray-200">
       <div className="flex w-[40vw] gap-4">
         <Avatar className="w-16 h-16">
           <AvatarImage src={image} />

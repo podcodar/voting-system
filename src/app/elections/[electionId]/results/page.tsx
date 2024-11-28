@@ -1,21 +1,21 @@
+import { getCandidates } from "@packages/DAO/candidates.dao";
 import ResultCard from "@packages/components/ResultCard";
-import candidates from "src/data/data";
 const Home = () => {
   return (
     <div>
       <div className="flex items-center justify-center h-[80vh] content-center">
         <div>
           <h1 className="text-center text-xl p-16">Resultado da Eleição</h1>
-          {candidates.map(
-            ({ image, candidate, vice, party, percentagem, votos }) => (
+          {getCandidates().map(
+            ({ image, candidate, vice, party, percentage, votes }) => (
               <div key={candidate} className="p-4">
                 <ResultCard
                   image={image}
                   candidate={candidate}
                   vice={vice}
                   party={party}
-                  percentagem={percentagem}
-                  votos={votos}
+                  percentagem={percentage}
+                  votos={votes}
                 />
               </div>
             ),
