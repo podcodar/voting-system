@@ -12,6 +12,9 @@
     "format": "biome format --write .",
     "postinstall": "prisma generate"
   },
+  "prisma": {
+    "seed": "ts-node --compiler-options {\"module\":\"CommonJS\"} prisma/seed.ts"
+  },
   "dependencies": {
     "@prisma/client": "^5.11.0",
     "@radix-ui/react-avatar": "^1.1.1",
